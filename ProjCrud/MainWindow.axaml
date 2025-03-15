@@ -1,0 +1,39 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ProjCrud.MainWindow"
+        Title="Projeto Crud">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- StackPanel com os campos de texto e botões -->
+        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+            <TextBox x:Name="txtTitulo" Width="150" Margin="0 0 10 0" Watermark="Titulo"/>
+            <TextBox x:Name="txtAutor" Width="50" Margin="0 0 10 0" Watermark="Autor"/>
+            <TextBox x:Name="txtEditora" Width="50" Margin="0 0 10 0" Watermark="Editora"/>
+            <TextBox x:Name="txtAno" Width="50" Margin="0 0 10 0" Watermark="Ano"/>
+            <Button Content="Adicionar" Click="Adicionar_Click"/>
+            <Button Content="Atualizar" Click="Atualizar_Click" Margin="5 0"/>
+            <Button Content="Deletar" Click="Deletar_Click" Margin="5 0"/>
+        </StackPanel>
+
+ <ListBox x:Name="lstLivros" Grid.Row="1" SelectionChanged="LstLivros_SelectionChanged">
+    <ListBox.ItemTemplate>
+        <DataTemplate>
+            <StackPanel>
+                <TextBlock Text="{Binding Titulo}"/>
+                <TextBlock Text="{Binding Autor}"/>
+                <TextBlock Text="{Binding Editora}"/>
+                <TextBlock Text="{Binding Ano}"/>
+            </StackPanel>
+        </DataTemplate>
+    </ListBox.ItemTemplate>
+</ListBox>
+</Grid>
+</Window>
