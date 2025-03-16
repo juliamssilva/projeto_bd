@@ -1,36 +1,35 @@
 using System.Collections.Generic;
 using System.Data.SQLite;
-using Avalonia.Animation.Easings;
-using Avalonia.Automation.Peers;
 
-namespace ProjCrud {
-
-    public static class livroDAO{
-
-        public static void Criar(Livro livro){
-
-            //Conectar ao banco
-            using (var conexao = Conexao.Conectar()){
+namespace ProjCrud
+{
+    public static class livroDAO
+    {
+        public static void Criar(Livro livro)
+        {
+            using (var conexao = Conexao.Conectar())
+            {
                 var cmd = conexao.CreateCommand();
-                cmd.CommandText = "INSERT INTO livros (titulo, autor, editora, ano) VALUES (@titulo, @autor, @editora, @ano)";
-                cmd.Parameters.AddWithValue("@titulo", livro.Titulo);
-                cmd.Parameters.AddWithValue("@autor", livro.Autor);
-                cmd.Parameters.AddWithValue("@editora", livro.Editora);
-                cmd.Parameters.AddWithValue("@ano", livro.Ano);
+                cmd.CommandText = "INSERT INTO Livro (Titulo, Autor, Editora, Ano) VALUES (@Titulo, @Autor, @Editora, @Ano)";
+                cmd.Parameters.AddWithValue("@Titulo", livro.Titulo);
+                cmd.Parameters.AddWithValue("@Autor", livro.Autor);
+                cmd.Parameters.AddWithValue("@Editora", livro.Editora);
+                cmd.Parameters.AddWithValue("@Ano", livro.Ano);
                 cmd.ExecuteNonQuery();
             }
         }
 
-        public static List<Livro> Ler(){
+        public static List<Livro> Ler()
+        {
             var livros = new List<Livro>();
 
-            using( var conexao = Conexao.Conectar()){
-
-                var cmd = new SQLiteCommand("SELECT * FROM livros", conexao);
-                using (var reader = cmd.ExecuteReader()){
-
-                    while (reader.Read()){
-
+            using (var conexao = Conexao.Conectar())
+            {
+                var cmd = new SQLiteCommand("SELECT * FROM Livro", conexao);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
                         livros.Add(new Livro
                         {
                             Id = reader.GetInt32(0),
@@ -46,31 +45,28 @@ namespace ProjCrud {
             return livros;
         }
 
-        public static void Atualizar(Livro livro){
-
-            using(var conexao = Conexao.Conectar()){
-                var cmd = new SQLiteCommand("UPDATE livros SET titulo = @titulo, autor = @autor, editora = @editora, ano = @ano WHERE id = @id", conexao);
-                cmd.Parameters.AddWithValue("@titulo", livro.Titulo);
-                cmd.Parameters.AddWithValue("@autor", livro.Autor);
-                cmd.Parameters.AddWithValue("@editora", livro.Editora);
-                cmd.Parameters.AddWithValue("@ano", livro.Ano);
-                cmd.Parameters.AddWithValue("@id", livro.Id);        
+        public static void Atualizar(Livro livro)
+        {
+            using (var conexao = Conexao.Conectar())
+            {
+                var cmd = new SQLiteCommand("UPDATE Livro SET titulo = @Titulo, autor = @Autor, editora = @Editora, ano = @Ano WHERE id = @Id", conexao);
+                cmd.Parameters.AddWithValue("@Titulo", livro.Titulo);
+                cmd.Parameters.AddWithValue("@Autor", livro.Autor);
+                cmd.Parameters.AddWithValue("@Editora", livro.Editora);
+                cmd.Parameters.AddWithValue("@Ano", livro.Ano);
+                cmd.Parameters.AddWithValue("@Id", livro.Id);
                 cmd.ExecuteNonQuery();
-
             }
         }
 
-        public static void Deletar(int id){
-
-            using (var conexao = Conexao.Conectar()){
-                var cmd = new SQLiteCommand("DELETE FROM Livro where id = @id", conexao);
+        public static void Deletar(int id)
+        {
+            using (var conexao = Conexao.Conectar())
+            {
+                var cmd = new SQLiteCommand("DELETE FROM Livro WHERE id = @id", conexao);
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.ExecuteNonQuery();
-
-            }        
-            
+            }
         }
     }
-
 }
-

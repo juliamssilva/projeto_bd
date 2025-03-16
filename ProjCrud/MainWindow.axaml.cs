@@ -1,34 +1,46 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using System.Collections.Generic;
 
-
-namespace ProjCrud;
-
-public partial class MainWindow : Window
+namespace ProjCrud
 {
-    public MainWindow()
+    public partial class MainWindow : Window
     {
-        InitializeComponent();
-    }
+        private List<Livro> livros = new List<Livro>(); // Inicializar para evitar warnings
 
-    private void AtualizarLista()
+        public MainWindow()
         {
-            //lstLivros.ItemsSource = null;
-            lstLivros.ItemsSource = livroDAO.Ler();
+            InitializeComponent();
+            AtualizarLista();
+        }
+
+        private void AtualizarLista()
+        {
+            livros = livroDAO.Ler();
+            lstLivros.Items.Clear(); // Limpar a coleção existente
+            
+            foreach (var livro in livros)
+            {
+                lstLivros.Items.Add(livro);
+            }
         }
 
         private void Adicionar_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtTitulo.Text) && !string.IsNullOrWhiteSpace(txtAutor.Text) &&
-            !string.IsNullOrWhiteSpace(txtEditora.Text) && int.TryParse(txtAno.Text, out int ano))
+                !string.IsNullOrWhiteSpace(txtEditora.Text) && int.TryParse(txtAno.Text, out int ano))
             {
-                livroDAO.Criar(new Livro { Titulo = txtTitulo.Text, Autor = txtAutor.Text, 
-                Editora = txtEditora.Text, Ano = ano });
+                var novoLivro = new Livro 
+                { 
+                    Titulo = txtTitulo.Text, 
+                    Autor = txtAutor.Text, 
+                    Editora = txtEditora.Text, 
+                    Ano = ano 
+                };
+                
+                livroDAO.Criar(novoLivro);
                 AtualizarLista();
-                txtTitulo.Clear();
-                txtAutor.Clear();
-                txtEditora.Clear();
-                txtAno.Clear();
+                LimparCampos();
             }
         }
 
@@ -36,15 +48,13 @@ public partial class MainWindow : Window
         {
             if (lstLivros.SelectedItem is Livro livro && int.TryParse(txtAno.Text, out int ano))
             {
-                if (livro != null)
-                {
-                    livro.Titulo = txtTitulo?.Text ?? string.Empty;  // Usando operador null-coalescing
-                    livro.Autor = txtAutor?.Text ?? string.Empty;
-                    livro.Editora = txtEditora?.Text ?? string.Empty;
-                    livro.Ano = ano;
-                    livroDAO.Atualizar(livro);
-                    AtualizarLista();
-                }
+                livro.Titulo = txtTitulo.Text ?? string.Empty;
+                livro.Autor = txtAutor.Text ?? string.Empty;
+                livro.Editora = txtEditora.Text ?? string.Empty;
+                livro.Ano = ano;
+                
+                livroDAO.Atualizar(livro);
+                AtualizarLista();
             }
         }
 
@@ -54,15 +64,11 @@ public partial class MainWindow : Window
             {
                 livroDAO.Deletar(livro.Id);
                 AtualizarLista();
-                txtTitulo.Clear();
-                txtAutor.Clear();
-                txtEditora.Clear();
-                txtAno.Clear();
+                LimparCampos();
             }
         }
 
         private void LstLivros_SelectionChanged(object sender, SelectionChangedEventArgs e)
-
         {
             if (lstLivros.SelectedItem is Livro livro)
             {
@@ -72,6 +78,13 @@ public partial class MainWindow : Window
                 txtAno.Text = livro.Ano.ToString();
             }
         }
+        
+        private void LimparCampos()
+        {
+            txtTitulo.Text = string.Empty;
+            txtAutor.Text = string.Empty;
+            txtEditora.Text = string.Empty;
+            txtAno.Text = string.Empty;
+        }
     }
-
-
+}
