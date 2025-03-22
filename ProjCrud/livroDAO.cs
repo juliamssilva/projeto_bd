@@ -5,11 +5,14 @@ namespace ProjCrud
 {
     public static class livroDAO
     {
+        // Método para criar um livro no banco de dados
+        // Recebe um objeto do tipo Livro como parâmetro
         public static void Criar(Livro livro)
         {
             using (var conexao = Conexao.Conectar())
             {
                 var cmd = conexao.CreateCommand();
+                // Comando SQL para inserir um novo livro na tabela Livro
                 cmd.CommandText = "INSERT INTO Livro (Titulo, Autor, Editora, Ano) VALUES (@Titulo, @Autor, @Editora, @Ano)";
                 cmd.Parameters.AddWithValue("@Titulo", livro.Titulo);
                 cmd.Parameters.AddWithValue("@Autor", livro.Autor);
@@ -19,17 +22,22 @@ namespace ProjCrud
             }
         }
 
+        // Método para ler todos os livros do banco de dados
         public static List<Livro> Ler()
         {
+            //Cria uma lista de livros
             var livros = new List<Livro>();
 
             using (var conexao = Conexao.Conectar())
             {
+                //Criação do comando sql para selecionar todos os livros da tabela Livro
                 var cmd = new SQLiteCommand("SELECT * FROM Livro", conexao);
                 using (var reader = cmd.ExecuteReader())
                 {
+                    //itera sobre os resultados da consulta
                     while (reader.Read())
                     {
+                        //cria um novo objeto livro para cada linha e adiciona a lista
                         livros.Add(new Livro
                         {
                             Id = reader.GetInt32(0),
@@ -45,6 +53,8 @@ namespace ProjCrud
             return livros;
         }
 
+        // Método para atualizar um livro no banco de dados
+        // Recebe um objeto livro como parâmetro
         public static void Atualizar(Livro livro)
         {
             using (var conexao = Conexao.Conectar())
@@ -59,6 +69,8 @@ namespace ProjCrud
             }
         }
 
+        // Método para deletar um livro do banco de dados
+        // Recebe o id do livro como parâmetro
         public static void Deletar(int id)
         {
             using (var conexao = Conexao.Conectar())
