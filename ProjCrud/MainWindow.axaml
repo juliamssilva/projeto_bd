@@ -2,26 +2,40 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d"
         x:Class="ProjCrud.MainWindow"
-        Title="Projeto Crud">
+        Title="Projeto Crud"
+        Width="1000" Height="600"
+        Background="#B0DAF5"> <!-- Fundo azul claro -->
 
-    <Grid Margin="10">
+    <Grid Margin="20">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
-            <TextBox x:Name="txtTitulo" Width="150" Margin="0 0 10 0" Watermark="Titulo"/>
-            <TextBox x:Name="txtAutor" Width="100" Margin="0 0 10 0" Watermark="Autor"/>
-            <TextBox x:Name="txtEditora" Width="100" Margin="0 0 10 0" Watermark="Editora"/>
-            <TextBox x:Name="txtAno" Width="80" Margin="0 0 10 0" Watermark="Ano"/>
-            <Button Content="Adicionar" Click="Adicionar_Click"/>
-            <Button Content="Atualizar" Click="Atualizar_Click" Margin="5 0"/>
-            <Button Content="Deletar" Click="Deletar_Click" Margin="5 0"/>
+        <!-- Barra superior preta (mais fina) -->
+        <Border Background="Black" Padding="5"> <!-- Padding reduzido -->
+        </Border>
+
+        <!-- Campos de entrada e botões -->
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtTitulo" Width="200" Margin="0 0 10 0" Watermark="Título"/>
+            <TextBox x:Name="txtAutor" Width="150" Margin="0 0 10 0" Watermark="Autor"/>
+            <TextBox x:Name="txtEditora" Width="150" Margin="0 0 10 0" Watermark="Editora"/>
+            <TextBox x:Name="txtAno" Width="100" Margin="0 0 10 0" Watermark="Ano"/>
+
+            <Button Content="Adicionar" Click="Adicionar_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Atualizar" Click="Atualizar_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            <Button Content="Deletar" Click="Deletar_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
         </StackPanel>
 
-        <ListBox x:Name="lstLivros" Grid.Row="1" SelectionChanged="LstLivros_SelectionChanged"/>
+        <!-- Lista de livros com estilo de tabela (cor do texto alterada) -->
+        <ListBox x:Name="lstLivros" Grid.Row="2" BorderBrush="Gray"
+                 SelectionChanged="LstLivros_SelectionChanged" Background="White" Foreground="Black"/> <!-- Cor do texto alterada -->
     </Grid>
 </Window>
