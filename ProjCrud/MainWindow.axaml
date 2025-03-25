@@ -12,15 +12,16 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/> 
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <!-- Barra superior preta (mais fina) -->
-        <Border Background="Black" Padding="5"> <!-- Padding reduzido -->
+        <Border Background="Black" Padding="5" Grid.Row="0"> <!-- Padding reduzido -->
         </Border>
 
         <!-- Campos de entrada e botões -->
-        <StackPanel Orientation="Horizontal" Margin="10">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
             <TextBox x:Name="txtTitulo" Width="200" Margin="0 0 10 0" Watermark="Título"/>
             <TextBox x:Name="txtAutor" Width="150" Margin="0 0 10 0" Watermark="Autor"/>
             <TextBox x:Name="txtEditora" Width="150" Margin="0 0 10 0" Watermark="Editora"/>
@@ -34,8 +35,17 @@
                     Background="White" Foreground="Black" Padding="8" Margin="5"/>
         </StackPanel>
 
+        <!-- Barra de pesquisa -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtPesquisa" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por título..."/>
+            <Button Content="Pesquisar" Click="Pesquisar_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+        </StackPanel>
+
         <!-- Lista de livros com estilo de tabela (cor do texto alterada) -->
-        <ListBox x:Name="lstLivros" Grid.Row="2" BorderBrush="Gray"
+        <ListBox x:Name="lstLivros" Grid.Row="3" BorderBrush="Gray"
                  SelectionChanged="LstLivros_SelectionChanged" Background="White" Foreground="Black"/> <!-- Cor do texto alterada -->
     </Grid>
 </Window>

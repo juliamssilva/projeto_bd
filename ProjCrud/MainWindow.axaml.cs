@@ -86,5 +86,31 @@ namespace ProjCrud
             txtEditora.Text = string.Empty;
             txtAno.Text = string.Empty;
         }
+
+        private void Pesquisar_Click(object sender, RoutedEventArgs e)
+        {
+            string termoPesquisa = txtPesquisa.Text?.Trim() ?? string.Empty;
+            if (!string.IsNullOrEmpty(termoPesquisa))
+            {
+                var resultadosPesquisa = livroDAO.Pesquisar(termoPesquisa);
+                ExibirResultadosPesquisa(resultadosPesquisa);
+            }
+        }
+        
+        private void MostrarTodos_Click(object sender, RoutedEventArgs e)
+        {
+            AtualizarLista();
+            txtPesquisa.Text = string.Empty;
+        }
+        
+        private void ExibirResultadosPesquisa(List<Livro> resultados)
+        {
+            lstLivros.Items.Clear();
+            
+            foreach (var livro in resultados)
+            {
+                lstLivros.Items.Add(livro);
+            }
+        }
     }
 }

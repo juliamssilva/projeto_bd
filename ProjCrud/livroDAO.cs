@@ -80,5 +80,33 @@ namespace ProjCrud
                 cmd.ExecuteNonQuery();
             }
         }
+
+        // Método para pesquisar livros pelo título
+        public static List<Livro> Pesquisar(string titulo)
+        {
+            var livros = new List<Livro>();
+
+            using (var conexao = Conexao.Conectar())
+            {
+                var cmd = new SQLiteCommand("SELECT * FROM Livro WHERE Titulo LIKE @Titulo", conexao);
+                cmd.Parameters.AddWithValue("@Titulo", "%" + titulo + "%");
+                
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        livros.Add(new Livro
+                        {
+                            Id = reader.GetInt32(0),
+                            Titulo = reader.GetString(1),
+                            Autor = reader.GetString(2),
+                            Editora = reader.GetString(3),
+                            Ano = reader.GetInt32(4)
+                        });
+                    }
+                }
+            }
+            return livros;
+        }
     }
 }
