@@ -16,9 +16,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Barra superior preta (mais fina) -->
-        <Border Background="Black" Padding="5" Grid.Row="0"> <!-- Padding reduzido -->
-        </Border>
 
         <!-- Campos de entrada e botões -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
@@ -34,6 +31,7 @@
             <Button Content="Deletar" Click="Deletar_Click"
                     Background="White" Foreground="Black" Padding="8" Margin="5"/>
         </StackPanel>
+
 
         <!-- Barra de pesquisa -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
