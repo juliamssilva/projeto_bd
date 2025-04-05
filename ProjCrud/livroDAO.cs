@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using System.Data.SQLite;
+using System.Data.SqlClient;
 
 namespace ProjCrud
 {
@@ -31,7 +31,7 @@ namespace ProjCrud
             using (var conexao = Conexao.Conectar())
             {
                 //Criação do comando sql para selecionar todos os livros da tabela Livro
-                var cmd = new SQLiteCommand("SELECT * FROM Livro", conexao);
+                var cmd = new SqlCommand("SELECT * FROM Livro", conexao);
                 using (var reader = cmd.ExecuteReader())
                 {
                     //itera sobre os resultados da consulta
@@ -59,7 +59,7 @@ namespace ProjCrud
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SQLiteCommand("UPDATE Livro SET titulo = @Titulo, autor = @Autor, editora = @Editora, ano = @Ano WHERE id = @Id", conexao);
+                var cmd = new SqlCommand("UPDATE Livro SET titulo = @Titulo, autor = @Autor, editora = @Editora, ano = @Ano WHERE id = @Id", conexao);
                 cmd.Parameters.AddWithValue("@Titulo", livro.Titulo);
                 cmd.Parameters.AddWithValue("@Autor", livro.Autor);
                 cmd.Parameters.AddWithValue("@Editora", livro.Editora);
@@ -75,7 +75,7 @@ namespace ProjCrud
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SQLiteCommand("DELETE FROM Livro WHERE id = @id", conexao);
+                var cmd = new SqlCommand("DELETE FROM Livro WHERE id = @id", conexao);
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.ExecuteNonQuery();
             }
@@ -88,7 +88,7 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SQLiteCommand("SELECT * FROM Livro WHERE Titulo LIKE @Titulo", conexao);
+                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Titulo LIKE @Titulo", conexao);
                 cmd.Parameters.AddWithValue("@Titulo", "%" + titulo + "%");
                 
                 using (var reader = cmd.ExecuteReader())

@@ -1,14 +1,14 @@
-using System.Data.SQLite;
+using System.Data.SqlClient;
 
 namespace ProjCrud
 {
     public static class Conexao
     {
-        private static string conexaoString = "Data Source=banco.db";
+        private static string conexaoString = "Server=localhost;Database=MeuBanco;User Id=sa;Password=MinhaSenha;";
 
-        public static SQLiteConnection Conectar()
+        public static SqlConnection Conectar()
         {
-            var conexao = new SQLiteConnection(conexaoString);
+            var conexao = new SqlConnection(conexaoString);
             conexao.Open();
             return conexao;
         }
