@@ -13,11 +13,14 @@ namespace ProjCrud
             {
                 var cmd = conexao.CreateCommand();
                 // Comando SQL para inserir um novo livro na tabela Livro
-                cmd.CommandText = "INSERT INTO Livro (Titulo, Autor, Editora, Ano) VALUES (@Titulo, @Autor, @Editora, @Ano)";
+                cmd.CommandText = "INSERT INTO Livro (Titulo, Autor, Editora, Ano, Categoria, Preco, Estoque) VALUES (@Titulo, @Autor, @Editora, @Ano, @Categoria, @Preco, @Estoque)";
                 cmd.Parameters.AddWithValue("@Titulo", livro.Titulo);
                 cmd.Parameters.AddWithValue("@Autor", livro.Autor);
                 cmd.Parameters.AddWithValue("@Editora", livro.Editora);
                 cmd.Parameters.AddWithValue("@Ano", livro.Ano);
+                cmd.Parameters.AddWithValue("@Categoria", livro.Categoria);
+                cmd.Parameters.AddWithValue("@Preco", livro.Preco);
+                cmd.Parameters.AddWithValue("@Estoque", livro.Estoque);
                 cmd.ExecuteNonQuery();
             }
         }
@@ -44,7 +47,10 @@ namespace ProjCrud
                             Titulo = reader.GetString(1),
                             Autor = reader.GetString(2),
                             Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4)
+                            Ano = reader.GetInt32(4),
+                            Categoria = reader.GetString(5),
+                            Preco = reader.GetDecimal(6),
+                            Estoque = reader.GetInt32(7)
                         });
                     }
                 }
@@ -59,11 +65,14 @@ namespace ProjCrud
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("UPDATE Livro SET titulo = @Titulo, autor = @Autor, editora = @Editora, ano = @Ano WHERE id = @Id", conexao);
+                var cmd = new SqlCommand("UPDATE Livro SET titulo = @Titulo, autor = @Autor, editora = @Editora, ano = @Ano, categoria = @Categoria, preco = @Preco, estoque = @Estoque  WHERE id = @Id", conexao);
                 cmd.Parameters.AddWithValue("@Titulo", livro.Titulo);
                 cmd.Parameters.AddWithValue("@Autor", livro.Autor);
                 cmd.Parameters.AddWithValue("@Editora", livro.Editora);
                 cmd.Parameters.AddWithValue("@Ano", livro.Ano);
+                cmd.Parameters.AddWithValue("@Categoria", livro.Categoria);
+                cmd.Parameters.AddWithValue("@Preco", livro.Preco);
+                cmd.Parameters.AddWithValue("@Estoque", livro.Estoque);
                 cmd.Parameters.AddWithValue("@Id", livro.Id);
                 cmd.ExecuteNonQuery();
             }
@@ -101,7 +110,10 @@ namespace ProjCrud
                             Titulo = reader.GetString(1),
                             Autor = reader.GetString(2),
                             Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4)
+                            Ano = reader.GetInt32(4),
+                            Categoria = reader.GetString(5),
+                            Preco = reader.GetDecimal(6),
+                            Estoque = reader.GetInt32(7),
                         });
                     }
                 }
