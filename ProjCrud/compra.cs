@@ -18,7 +18,7 @@ namespace ProjCrud
         public DateTime DataCompra { get; set; }  
         public decimal Total  { get; set;} 
         public string FormaPagamento  { get; set;} = string.Empty;
-        public string StatusPagament  { get; set;} = string.Empty;
+        public string StatusPagamento  { get; set;} = string.Empty;
 
         //Uma compra pode ter vários itens de pedido
         public List<ItemPedido> ItensPedido { get; set; } = new List<ItemPedido>();

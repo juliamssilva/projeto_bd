@@ -14,7 +14,7 @@ namespace ProjCrud
 
         
         public int Quantidade  { get; set;} 
-        public decimal Subtotal  { get; set;} 
+        public decimal SubTotal  { get; set;} 
     }
 }
   
