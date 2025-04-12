@@ -64,16 +64,16 @@ namespace ProjCrud
                     throw new Exception("Erro ao calcular o total da compra.");
                 }
 
-                var cmd2 = new SqlCommand("SELECT IsFlamengo FROM Cliente Cli, Compra C WHERE Cli.CpfClient e = C.CpfCliente and IdCompra = @idCompra ", conexao);
+                var cmd2 = new SqlCommand("SELECT IsFlamengo FROM Cliente Cli, Compra C WHERE Cli.CpfCliente e = C.CpfCliente and IdCompra = @idCompra ", conexao);
                 cmd2.Parameters.AddWithValue("@IdCompra", idCompra);
                 var flamengo = (bool)cmd2.ExecuteScalar();
                 
-                var cmd3 = new SqlCommand("SELECT IsOnePieceFan FROM Cliente Cli, Compra C WHERE Cli.CpfClient e = C.CpfCliente and IdCompra = @idCompra ", conexao);
+                var cmd3 = new SqlCommand("SELECT IsOnePieceFan FROM Cliente Cli, Compra C WHERE Cli.CpfCliente e = C.CpfCliente and IdCompra = @idCompra ", conexao);
                 cmd3.Parameters.AddWithValue("@IdCompra", idCompra);
                 var onepiece = (bool)cmd3.ExecuteScalar();
                 
                 
-                var cmd4 = new SqlCommand("SELECT IsTeixeira FROM Cliente Cli, Compra C WHERE Cli.CpfClient e = C.CpfCliente and IdCompra = @idCompra ", conexao);
+                var cmd4 = new SqlCommand("SELECT IsTeixeira FROM Cliente Cli, Compra C WHERE Cli.CpfCliente e = C.CpfCliente and IdCompra = @idCompra ", conexao);
                 cmd4.Parameters.AddWithValue("@IdCompra", idCompra);
                 var Teixeira = (bool)cmd4.ExecuteScalar();
 
@@ -91,7 +91,7 @@ namespace ProjCrud
 
         }
 
-        public static List<ItemPedido> CompraCliente(int CpfCliente)
+        public static List<ItemPedido> CompraCliente(string CpfCliente)
         {
             var compras = new List<ItemPedido>();
 

@@ -7,7 +7,7 @@ namespace ProjCrud
     
         public int Id { get; set; } 
 
-        public int CpfCliente { get; set; }
+        public string CpfCliente { get; set; } = string.Empty;
         public Cliente Cliente { get; set;} = new Cliente();
 
 

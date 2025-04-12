@@ -6,23 +6,26 @@
         x:Class="ProjCrud.MainWindow"
         Title="Projeto Crud"
         Width="1000" Height="600"
-        Background="#B0DAF5"> <!-- Fundo azul claro -->
+        Background="#B0DAF5">
 
     <Grid Margin="20">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/> 
-            <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/> <!-- Campos e botões -->
+                <RowDefinition Height="Auto"/> <!-- Janelas para outras buscas-->
+                <RowDefinition Height="Auto"/> <!-- Seletor de tipo de pesquisa -->
+                <RowDefinition Height="Auto"/> <!-- Barra de pesquisa dinâmica -->
+                <RowDefinition Height="*"/>    <!-- Lista de livros -->
         </Grid.RowDefinitions>
 
-
         <!-- Campos de entrada e botões -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
-            <TextBox x:Name="txtTitulo" Width="200" Margin="0 0 10 0" Watermark="Título"/>
-            <TextBox x:Name="txtAutor" Width="150" Margin="0 0 10 0" Watermark="Autor"/>
-            <TextBox x:Name="txtEditora" Width="150" Margin="0 0 10 0" Watermark="Editora"/>
-            <TextBox x:Name="txtAno" Width="100" Margin="0 0 10 0" Watermark="Ano"/>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtTitulo" Width="150" Margin="0 0 10 0" Watermark="Título"/>
+            <TextBox x:Name="txtAutor" Width="100" Margin="0 0 10 0" Watermark="Autor"/>
+            <TextBox x:Name="txtEditora" Width="100" Margin="0 0 10 0" Watermark="Editora"/>
+            <TextBox x:Name="txtAno" Width="80" Margin="0 0 10 0" Watermark="Ano"/>
+            <TextBox x:Name="txtCategoria" Width="100" Margin="0 0 10 0" Watermark="Categoria"/>
+            <TextBox x:Name="txtPreco" Width="100" Margin="0 0 10 0" Watermark="Preço"/>
+            <TextBox x:Name="txtEstoque" Width="80" Margin="0 0 10 0" Watermark="Estoque"/>
 
             <Button Content="Adicionar" Click="Adicionar_Click"
                     Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
@@ -30,20 +33,71 @@
                     Background="White" Foreground="Black" Padding="8" Margin="5"/>
             <Button Content="Deletar" Click="Deletar_Click"
                     Background="White" Foreground="Black" Padding="8" Margin="5"/>
+
         </StackPanel>
 
+          <!-- Botão para abrir as janelas -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+                <Button Content="Gerenciar Clientes" Click="AbrirClienteWindow_Click"
+                    Background="#28a745" Foreground="White" Padding="8" Margin="5"/>  
+                <Button Content="Gerenciar Vendedores" Click="AbrirVendedorWindow_Click"
+                    Background="#28a745" Foreground="White" Padding="8" Margin="5"/>
+        </StackPanel>
 
-        <!-- Barra de pesquisa -->
+        
+        <!-- Seletor de tipo de pesquisa -->
         <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
-            <TextBox x:Name="txtPesquisa" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por título..."/>
-            <Button Content="Pesquisar" Click="Pesquisar_Click"
-                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
-            <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
-                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            <TextBlock Text="Pesquisar por:" VerticalAlignment="Center" Margin="0 0 10 0"/>
+            <ComboBox x:Name="cmbTipoPesquisa" Width="200" SelectedIndex="0" SelectionChanged="TipoPesquisa_SelectionChanged">
+                <ComboBoxItem Content="Título"/>
+                <ComboBoxItem Content="Categoria"/>
+                <ComboBoxItem Content="Editora"/>
+                <ComboBoxItem Content="Faixa de Preço"/>
+            </ComboBox>
         </StackPanel>
 
-        <!-- Lista de livros com estilo de tabela (cor do texto alterada) -->
-        <ListBox x:Name="lstLivros" Grid.Row="3" BorderBrush="Gray"
-                 SelectionChanged="LstLivros_SelectionChanged" Background="White" Foreground="Black"/> <!-- Cor do texto alterada -->
+        <!-- Área de pesquisa dinâmica -->
+        <Grid Grid.Row="3" Margin="10">
+            <!-- Pesquisa por título -->
+            <StackPanel x:Name="pnlPesquisaTitulo" Orientation="Horizontal" IsVisible="True">
+                <TextBox x:Name="txtPesquisarTitulo" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por título..."/>
+                <Button Content="Pesquisar" Click="Pesquisar_Click_Titulo"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <!-- Pesquisa por categoria -->
+            <StackPanel x:Name="pnlPesquisaCategoria" Orientation="Horizontal" IsVisible="False">
+                <TextBox x:Name="txtPesquisarCategoria" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por categoria..."/>
+                <Button Content="Pesquisar" Click="Pesquisar_Click_Categoria"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <!-- Pesquisa por editora -->
+            <StackPanel x:Name="pnlPesquisaEditora" Orientation="Horizontal" IsVisible="False">
+                <TextBox x:Name="txtPesquisarEditora" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por editora..."/>
+                <Button Content="Pesquisar" Click="Pesquisar_Click_Editora"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <!-- Pesquisa por faixa de preço -->
+            <StackPanel x:Name="pnlPesquisaPreco" Orientation="Horizontal" IsVisible="False">
+                <TextBox x:Name="txtPrecoMin" Width="195" Margin="0 0 10 0" Watermark="Preço mínimo..."/>
+                <TextBox x:Name="txtPrecoMax" Width="195" Margin="0 0 10 0" Watermark="Preço máximo..."/>
+                <Button Content="Pesquisar" Click="Pesquisar_Click_Preco"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Lista de livros -->
+        <ListBox x:Name="lstLivros" Grid.Row="4" BorderBrush="Gray"
+                 SelectionChanged="LstLivros_SelectionChanged" Background="White" Foreground="Black"/>
     </Grid>
 </Window>

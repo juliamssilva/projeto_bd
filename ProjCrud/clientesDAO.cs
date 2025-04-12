@@ -28,19 +28,19 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM Livro", conexao);
+                var cmd = new SqlCommand("SELECT * FROM Cliente", conexao);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
                         clientes.Add(new Cliente
                         {
-                            CpfCliente = reader.GetInt32(0),
-                            NomeCliente = reader.GetString(1),
-                            Email = reader.GetString(2),
-                            IsFlamengo = reader.GetBoolean(3),
-                            IsOnePieceFan = reader.GetBoolean(4),
-                            IsTeixeira = reader.GetBoolean(5)
+                            CpfCliente = reader["CpfCliente"].ToString(),
+                            NomeCliente = reader["NomeCliente"].ToString(),
+                            Email = reader["Email"].ToString(),
+                            IsFlamengo = (bool)reader["IsFlamengo"],
+                            IsOnePieceFan = (bool)reader["IsOnePieceFan"],
+                            IsTeixeira = (bool)reader["IsTeixeira"]
                         });
                     }
                 }
@@ -53,7 +53,7 @@ namespace ProjCrud
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("UPDATE Cliente SET CpfCliente = @CpfCliente, NomeCliente = @NomeCliente, Email = @Email, IsFlamengo = @IsFlamengo, IsOnePieceFan = @IsOnePieceFan, IsTeixeira = @IsTeixeira WHERE id = @Id", conexao);
+                var cmd = new SqlCommand("UPDATE Cliente SET CpfCliente = @CpfCliente, NomeCliente = @NomeCliente, Email = @Email, IsFlamengo = @IsFlamengo, IsOnePieceFan = @IsOnePieceFan, IsTeixeira = @IsTeixeira where CpfCliente = @CpfCliente", conexao);
                 cmd.Parameters.AddWithValue("@CpfCliente", cliente.CpfCliente);
                 cmd.Parameters.AddWithValue("@NomeCliente", cliente.NomeCliente);
                 cmd.Parameters.AddWithValue("@Email", cliente.Email);
@@ -64,18 +64,18 @@ namespace ProjCrud
             }
         }
 
-        public static void Deletar(int id)
+        public static void Deletar(string CpfCliente)
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("DELETE FROM Cliente WHERE id = @id", conexao);
-                cmd.Parameters.AddWithValue("@id", id);
+                var cmd = new SqlCommand("DELETE FROM Cliente WHERE CpfCliente = @CpfCliente", conexao);
+                cmd.Parameters.AddWithValue("@CpfCliente", CpfCliente);
                 cmd.ExecuteNonQuery();
             }
         }
 
 //Método para pesquisar clientes pelo CPF
-        public static Cliente Pesquisar(int cpf)
+        public static Cliente Pesquisar(string cpf)
         {
             Cliente cliente = new Cliente();
 
@@ -90,12 +90,12 @@ namespace ProjCrud
                         {
                             cliente = new Cliente
                             {
-                                CpfCliente = reader.GetInt32(0),
-                                NomeCliente = reader.GetString(1),
-                                Email = reader.GetString(2),
-                                IsFlamengo = reader.GetBoolean(3),
-                                IsOnePieceFan = reader.GetBoolean(4),
-                                IsTeixeira = reader.GetBoolean(5)
+                                CpfCliente = reader["CpfCliente"].ToString(),
+                                NomeCliente = reader["NomeCliente"].ToString(),
+                                Email = reader["Email"].ToString(),
+                                IsFlamengo = (bool)reader["IsFlamengo"],
+                                IsOnePieceFan = (bool)reader["IsOnePieceFan"],
+                                IsTeixeira = (bool)reader["IsTeixeira"]
                             };
                         }
                     }

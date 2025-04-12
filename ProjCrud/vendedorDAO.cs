@@ -10,8 +10,7 @@ namespace ProjCrud
                 using (var conexao = Conexao.Conectar())
                 {
                     var cmd = conexao.CreateCommand();
-                    cmd.CommandText = "INSERT INTO Vendedor (IdVendedor, NomeVendedor, Salario)";
-                    cmd.Parameters.AddWithValue("@IdVendedor", vendedor.IdVendedor);
+                    cmd.CommandText = "INSERT INTO Vendedor (NomeVendedor, Salario) VALUES (@NomeVendedor, @Salario)";
                     cmd.Parameters.AddWithValue("@NomeVendedor", vendedor.NomeVendedor);
                     cmd.Parameters.AddWithValue("@Salario", vendedor.Salario);
                     
@@ -32,9 +31,9 @@ namespace ProjCrud
                     {
                         vendedores.Add(new Vendedor
                         {
-                            IdVendedor = reader.GetInt32(0),
-                            NomeVendedor = reader.GetString(1),
-                            Salario = reader.GetDecimal(0)
+                            IdVendedor = (int)reader["IdVendedor"],
+                            NomeVendedor = reader["NomeVendedor"].ToString(),
+                            Salario = (decimal)reader["Salario"]
                         });
                     }
                 }
@@ -47,15 +46,13 @@ namespace ProjCrud
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("UPDATE Vendedor SET NomeVendedor = @NomeVendedor, Salario = @Salario WHERE IdVendedor = @IdVendedor", conexao);
+                var cmd = new SqlCommand("UPDATE Vendedor SET NomeVendedor = @NomeVendedor, Salario = @Salario WHERE IdVendedor = IdVendedor", conexao);
                 cmd.Parameters.AddWithValue("@NomeVendedor", vendedor.NomeVendedor);
                 cmd.Parameters.AddWithValue("@Salario", vendedor.Salario);
-                cmd.Parameters.AddWithValue("@IdVendedor", vendedor.IdVendedor);
                 cmd.ExecuteNonQuery();
             }
         }
-        // Método para deletar um livro do banco de dados
-        // Recebe o id do livro como parâmetro
+        
         public static void Deletar(int IdVendedor)
         {
             using (var conexao = Conexao.Conectar())
@@ -72,8 +69,8 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Titulo LIKE @Titulo", conexao);
-                cmd.Parameters.AddWithValue("@Titulo", "%" + NomeVendedor + "%");
+                var cmd = new SqlCommand("SELECT * FROM Vendedor WHERE NomeVendedor LIKE @NomeVendedor", conexao);
+                cmd.Parameters.AddWithValue("@NomeVendedor", "%" + NomeVendedor + "%");
                 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -81,9 +78,9 @@ namespace ProjCrud
                     {
                         vendedores.Add(new Vendedor
                         {
-                            IdVendedor = reader.GetInt32(0),
-                            NomeVendedor = reader.GetString(1),
-                            Salario = reader.GetDecimal(2)
+                            IdVendedor = (int)reader["IdVendedor"],
+                            NomeVendedor = reader["NomeVendedor"].ToString(),
+                            Salario = (decimal)reader["Salario"]
                         });
                         
                     }

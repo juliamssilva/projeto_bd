@@ -27,36 +27,31 @@ namespace ProjCrud
         }
 
         // Método para ler todos os livros do banco de dados
-        public static List<Livro> Ler()
-        {
-            //Cria uma lista de livros
+       public static List<Livro> Ler()
+     {
             var livros = new List<Livro>();
 
             using (var conexao = Conexao.Conectar())
             {
-                //Criação do comando sql para selecionar todos os livros da tabela Livro
                 var cmd = new SqlCommand("SELECT * FROM Livro", conexao);
                 using (var reader = cmd.ExecuteReader())
                 {
-                    //itera sobre os resultados da consulta
                     while (reader.Read())
                     {
-                        //cria um novo objeto livro para cada linha e adiciona a lista
                         livros.Add(new Livro
                         {
-                            Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
-                            Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4),
-                            Categoria = reader.GetString(5),
-                            Preco = reader.GetDecimal(6),
-                            Estoque = reader.GetInt32(7)
+                            Id = (int)reader["Id"],
+                            Titulo = reader["Titulo"].ToString(),
+                            Autor = reader["Autor"].ToString(),
+                            Editora = reader["Editora"].ToString(),
+                            Ano = (int)reader["Ano"],
+                            Categoria = reader["Categoria"].ToString(),
+                            Preco = (decimal)reader["Preco"],
+                            Estoque = (int)reader["Estoque"]
                         });
                     }
                 }
             }
-
             return livros;
         }
 
@@ -99,7 +94,7 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Titulo LIKE @Titulo", conexao);
+                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Titulo LIKE @titulo", conexao);
                 cmd.Parameters.AddWithValue("@Titulo", "%" + titulo + "%");
                 
                 using (var reader = cmd.ExecuteReader())
@@ -108,14 +103,14 @@ namespace ProjCrud
                     {
                         livros.Add(new Livro
                         {
-                            Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
-                            Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4),
-                            Categoria = reader.GetString(5),
-                            Preco = reader.GetDecimal(6),
-                            Estoque = reader.GetInt32(7),
+                            Id = (int)reader["Id"],
+                            Titulo = reader["Titulo"].ToString(),
+                            Autor = reader["Autor"].ToString(),
+                            Editora = reader["Editora"].ToString(),
+                            Ano = (int)reader["Ano"],
+                            Categoria = reader["Categoria"].ToString(),
+                            Preco = (decimal)reader["Preco"],
+                            Estoque = (int)reader["Estoque"]
                         });
                     }
                 }
@@ -158,10 +153,6 @@ namespace ProjCrud
                 return 1;
             }
         }
-            
-            //Filtrar faixa de preço 
-            //Filtrar livros por categoria
-            //Filtrar livros por editora
 
         public static List<Livro> PesquisarEstoque()
         {
@@ -178,14 +169,14 @@ namespace ProjCrud
                     {
                         livros.Add(new Livro
                         {
-                            Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
-                            Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4),
-                            Categoria = reader.GetString(5),
-                            Preco = reader.GetDecimal(6),
-                            Estoque = reader.GetInt32(7),
+                            Id = (int)reader["Id"],
+                            Titulo = reader["Titulo"].ToString(),
+                            Autor = reader["Autor"].ToString(),
+                            Editora = reader["Editora"].ToString(),
+                            Ano = (int)reader["Ano"],
+                            Categoria = reader["Categoria"].ToString(),
+                            Preco = (decimal)reader["Preco"],
+                            Estoque = (int)reader["Estoque"]
                         });
                     }
                 }
@@ -207,14 +198,14 @@ namespace ProjCrud
                     {
                         livros.Add(new Livro
                         {
-                            Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
-                            Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4),
-                            Categoria = reader.GetString(5),
-                            Preco = reader.GetDecimal(6),
-                            Estoque = reader.GetInt32(7),
+                            Id = (int)reader["Id"],
+                            Titulo = reader["Titulo"].ToString(),
+                            Autor = reader["Autor"].ToString(),
+                            Editora = reader["Editora"].ToString(),
+                            Ano = (int)reader["Ano"],
+                            Categoria = reader["Categoria"].ToString(),
+                            Preco = (decimal)reader["Preco"],
+                            Estoque = (int)reader["Estoque"]
                         });
                     }
                 }
@@ -228,8 +219,8 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Titulo LIKE @Titulo", conexao);
-                cmd.Parameters.AddWithValue("@Titulo", "%" + editora + "%");
+                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Editora LIKE @editora", conexao);
+                cmd.Parameters.AddWithValue("@editora", "%" + editora + "%");
                 
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -237,14 +228,14 @@ namespace ProjCrud
                     {
                         livros.Add(new Livro
                         {
-                            Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
-                            Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4),
-                            Categoria = reader.GetString(5),
-                            Preco = reader.GetDecimal(6),
-                            Estoque = reader.GetInt32(7),
+                            Id = (int)reader["Id"],
+                            Titulo = reader["Titulo"].ToString(),
+                            Autor = reader["Autor"].ToString(),
+                            Editora = reader["Editora"].ToString(),
+                            Ano = (int)reader["Ano"],
+                            Categoria = reader["Categoria"].ToString(),
+                            Preco = (decimal)reader["Preco"],
+                            Estoque = (int)reader["Estoque"]
                         });
                     }
                 }
@@ -268,14 +259,14 @@ namespace ProjCrud
                     {
                         livros.Add(new Livro
                         {
-                            Id = reader.GetInt32(0),
-                            Titulo = reader.GetString(1),
-                            Autor = reader.GetString(2),
-                            Editora = reader.GetString(3),
-                            Ano = reader.GetInt32(4),
-                            Categoria = reader.GetString(5),
-                            Preco = reader.GetDecimal(6),
-                            Estoque = reader.GetInt32(7),
+                            Id = (int)reader["Id"],
+                            Titulo = reader["Titulo"].ToString(),
+                            Autor = reader["Autor"].ToString(),
+                            Editora = reader["Editora"].ToString(),
+                            Ano = (int)reader["Ano"],
+                            Categoria = reader["Categoria"].ToString(),
+                            Preco = (decimal)reader["Preco"],
+                            Estoque = (int)reader["Estoque"]
                         });
                     }
                 }

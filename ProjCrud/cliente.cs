@@ -4,7 +4,7 @@ namespace ProjCrud
     public class Cliente
     {
     
-        public int CpfCliente { get; set; } 
+        public string CpfCliente { get; set; }  = string.Empty;
 
         public string NomeCliente { get; set; } = string.Empty;
         public string Email { get; set; } = string.Empty;
@@ -15,6 +15,14 @@ namespace ProjCrud
 
         //Um cliente pode fazer varias compras
         public List<Compra> Compras { get; set; } = new List<Compra>();
+
+       public override string ToString()
+        {
+            return $"{CpfCliente} - {NomeCliente} ({Email}) - " +
+                $"Flamenguista: {(IsFlamengo ? "Sim" : "Não")}, " + 
+                $"Fã de One Piece: {(IsOnePieceFan ? "Sim" : "Não")}, " +
+                $"Teixeirense: {(IsTeixeira ? "Sim" : "Não")}";
+        }
     }
 }
     

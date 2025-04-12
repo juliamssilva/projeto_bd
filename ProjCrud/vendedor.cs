@@ -10,6 +10,11 @@ namespace ProjCrud
 
         // Um vendedor pode estar responsável por várias compras
         public List<Compra> Compras { get; set; } = new List<Compra>();
+
+        public override string ToString()
+        {
+            return $"{IdVendedor} - {NomeVendedor} - Salário: R$ {Salario:F2}";
+        }
         
     }
 }

@@ -1,0 +1,60 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        x:Class="ProjCrud.ClienteWindow"
+        Title="Página de Clientes"
+        Width="1000" Height="600"
+        Background="#B0DAF5">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Campos e botões -->
+            <RowDefinition Height="Auto"/> <!-- Área de checkbox -->
+            <RowDefinition Height="Auto"/> <!-- Botões de ação -->
+            <RowDefinition Height="Auto"/> <!-- Pesquisa -->
+            <RowDefinition Height="*"/>    <!-- Lista de clientes -->
+        </Grid.RowDefinitions>
+
+        <!-- Campos de entrada -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtCpfCliente" Width="150" Margin="0 0 10 0" Watermark="CPF"/>
+            <TextBox x:Name="txtNomeCliente" Width="200" Margin="0 0 10 0" Watermark="Nome"/>
+            <TextBox x:Name="txtEmail" Width="200" Margin="0 0 10 0" Watermark="Email"/>
+        </StackPanel>
+        
+        <!-- Checkboxes -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <CheckBox x:Name="chkIsFlamengo" Content="Flamenguista" Margin="0 0 10 0"/>
+            <CheckBox x:Name="chkIsOnePieceFan" Content="Fã de One Piece" Margin="0 0 10 0"/>
+            <CheckBox x:Name="chkIsTeixeira" Content="Teixeira" Margin="0 0 10 0"/>
+        </StackPanel>
+        
+        <!-- Botões de ação -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <Button Content="Adicionar" Click="Adicionar_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Atualizar" Click="Atualizar_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            <Button Content="Deletar" Click="Deletar_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            <Button Content="Fechar" Click="Fechar_Click"
+                    Background="#6c757d" Foreground="White" Padding="8" Margin="5"/>
+        </StackPanel>
+
+        <!-- Área de pesquisa -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtPesquisarCpf" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por CPF..."/>
+            <Button Content="Pesquisar" Click="Pesquisar_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+        </StackPanel>
+
+        <!-- Lista de clientes -->
+        <ListBox x:Name="lstClientes" Grid.Row="4" BorderBrush="Gray"
+                 SelectionChanged="LstClientes_SelectionChanged" Background="White" Foreground="Black"/>
+
+    </Grid>
+</Window>
