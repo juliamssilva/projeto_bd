@@ -3,10 +3,40 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Data;
 
+#nullable disable
 namespace ProjCrud
 {
     public class ComprasDAO
     {
+
+        public static List<Compra> Ler()
+        {
+            var compras = new List<Compra>();
+
+            using (var conexao = Conexao.Conectar())
+            {
+                var cmd = new SqlCommand("SELECT * FROM Compra", conexao);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        compras.Add(new Compra
+                        {
+                            Id = (int)reader["Id"],
+                            CpfCliente = reader["CpfCliente"].ToString(),
+                            DataCompra = (DateTime)reader["DataCompra"],
+                            IdVendedor = (int)reader["IdVendedor"],
+                            Total = (decimal)reader["Total"],
+                            FormaPagamento = reader["FormaPagamento"].ToString(),
+                            StatusPagamento = reader["StatusPagamento"].ToString()
+                        });
+                    }
+                }
+            }
+            return compras;
+        }
+
+        
         public static void Comprar(Compra compra)
         {
             using (var conexao = Conexao.Conectar())
@@ -64,16 +94,16 @@ namespace ProjCrud
                     throw new Exception("Erro ao calcular o total da compra.");
                 }
 
-                var cmd2 = new SqlCommand("SELECT IsFlamengo FROM Cliente Cli, Compra C WHERE Cli.CpfCliente e = C.CpfCliente and IdCompra = @idCompra ", conexao);
+                var cmd2 = new SqlCommand("SELECT IsFlamengo FROM Cliente Cli, Compra C WHERE Cli.CpfCliente = C.CpfCliente and C.Id = @idCompra ", conexao);
                 cmd2.Parameters.AddWithValue("@IdCompra", idCompra);
                 var flamengo = (bool)cmd2.ExecuteScalar();
                 
-                var cmd3 = new SqlCommand("SELECT IsOnePieceFan FROM Cliente Cli, Compra C WHERE Cli.CpfCliente e = C.CpfCliente and IdCompra = @idCompra ", conexao);
+                var cmd3 = new SqlCommand("SELECT IsOnePieceFan FROM Cliente Cli, Compra C WHERE Cli.CpfCliente = C.CpfCliente and C.Id = @idCompra ", conexao);
                 cmd3.Parameters.AddWithValue("@IdCompra", idCompra);
                 var onepiece = (bool)cmd3.ExecuteScalar();
                 
                 
-                var cmd4 = new SqlCommand("SELECT IsTeixeira FROM Cliente Cli, Compra C WHERE Cli.CpfCliente e = C.CpfCliente and IdCompra = @idCompra ", conexao);
+                var cmd4 = new SqlCommand("SELECT IsTeixeira FROM Cliente Cli, Compra C WHERE Cli.CpfCliente = C.CpfCliente and C.Id = @idCompra ", conexao);
                 cmd4.Parameters.AddWithValue("@IdCompra", idCompra);
                 var Teixeira = (bool)cmd4.ExecuteScalar();
 
@@ -97,7 +127,7 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM ItemPedido WHERE CpfCliente = @CpfCliente", conexao);
+                var cmd = new SqlCommand("SELECT I.Id, I.IdCompra, I.IdLivro, I.Quantidade, I.SubTotal FROM ItemPedido I JOIN Compra C ON I.IdCompra = C.Id WHERE C.CpfCliente = @CpfCliente", conexao);
                 cmd.Parameters.AddWithValue("@CpfCliente", CpfCliente );
                 
                 using (var reader = cmd.ExecuteReader())
@@ -125,7 +155,7 @@ namespace ProjCrud
             using (var conexao = Conexao.Conectar())
             {
                 var cmd = new SqlCommand("SELECT * FROM ItemPedido WHERE IdVendendor = @IdVendedor", conexao);
-                cmd.Parameters.AddWithValue("@IdVendedpr", IdVendedor );
+                cmd.Parameters.AddWithValue("@IdVendedor", IdVendedor );
                 
                 using (var reader = cmd.ExecuteReader())
                 {

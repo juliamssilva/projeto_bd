@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System;
 using System.Data.SqlClient;
 
+#nullable disable
+
 namespace ProjCrud
 {
     public static class livroDAO

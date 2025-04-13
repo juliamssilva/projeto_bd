@@ -1,0 +1,80 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
+        x:Class="ProjCrud.Compras"
+        Title="Sistema de Compras">
+    
+    <Grid RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*,*" Margin="10">
+        <!-- Cabeçalho -->
+        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Gerenciamento de Compras" 
+                  FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+        
+        <!-- Painel de Controle -->
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10">
+            <Button Content="Nova Compra" Click="NovaCompra_Click"/>
+            <Button Content="Adicionar Item" Click="AdicionarItem_Click"/>
+            <Button Content="Remover Item" Click="RemoverItem_Click"/>
+            <Button Content="Calcular Total" Click="CalcularTotal_Click"/>
+            <TextBox x:Name="txtBusca" Width="200" Watermark="Buscar por CPF ou ID"/>
+            <Button Content="Buscar" Click="Buscar_Click"/>
+        </StackPanel>
+        
+        <!-- Lista de Compras -->
+        <DataGrid x:Name="dgCompras" Grid.Row="2" Grid.Column="0" 
+                 AutoGenerateColumns="False" IsReadOnly="True"
+                 SelectionChanged="dgCompras_SelectionChanged">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Cliente" Binding="{Binding CpfCliente}" Width="120"/>
+                <DataGridTextColumn Header="Data" Binding="{Binding DataCompra, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
+                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat='{}{0:C}'}" Width="100"/>
+                <DataGridTextColumn Header="Pagamento" Binding="{Binding FormaPagamento}" Width="120"/>
+                <DataGridTextColumn Header="Status" Binding="{Binding StatusPagamento}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- Itens da Compra -->
+        <DataGrid x:Name="dgItens" Grid.Row="2" Grid.Column="1" 
+                 AutoGenerateColumns="False" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="ID Livro" Binding="{Binding IdLivro}" Width="80"/>
+                <DataGridTextColumn Header="Quantidade" Binding="{Binding Quantidade}" Width="80"/>
+                <DataGridTextColumn Header="SubTotal" Binding="{Binding SubTotal, StringFormat='{}{0:C}'}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- Formulário de Nova Compra (visível apenas quando necessário) -->
+        <Border x:Name="pnlNovaCompra" Grid.Row="3" Grid.ColumnSpan="2" 
+               IsVisible="False" Background="#EEE" Padding="10">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBox x:Name="txtIdCompra" Width="50" Watermark="ID"/>
+                <TextBox x:Name="txtCpfCliente" Width="120" Watermark="CPF Cliente"/>
+                <DatePicker x:Name="dpDataCompra" Width="120" SelectedDate="{x:Null}"/>
+                <TextBox x:Name="txtIdVendedor" Width="80" Watermark="ID Vendedor"/>
+                <ComboBox x:Name="cbFormaPagamento" Width="120" Watermark="Pagamento">
+                    <ComboBoxItem>Cartão</ComboBoxItem>
+                    <ComboBoxItem>Boleto</ComboBoxItem>
+                    <ComboBoxItem>PIX</ComboBoxItem>
+                </ComboBox>
+                <Button Content="Confirmar" Click="ConfirmarCompra_Click"/>
+                <Button Content="Cancelar" Click="CancelarCompra_Click"/>
+            </StackPanel>
+        </Border>
+        
+        <!-- Formulário de Novo Item (visível apenas quando necessário) -->
+        <Border x:Name="pnlNovoItem" Grid.Row="3" Grid.ColumnSpan="2" 
+               IsVisible="False" Background="#EEE" Padding="10">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <TextBox x:Name="txtIdItem" Width="50" Watermark="ID Item"/>
+                <TextBox x:Name="txtIdLivro" Width="80" Watermark="ID Livro"/>
+                <TextBox x:Name="txtQuantidade" Width="80" Watermark="Quantidade"/>
+                <TextBox x:Name="txtPrecoUnitario" Width="100" Watermark="Preço" IsReadOnly="True"/>
+                <Button Content="Confirmar" Click="ConfirmarItem_Click"/>
+                <Button Content="Cancelar" Click="CancelarItem_Click"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

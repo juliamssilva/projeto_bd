@@ -13,10 +13,23 @@ namespace ProjCrud
             using (var conexao = Conexao.Conectar())
             {
                 var cmd = conexao.CreateCommand();
+
+                if (livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade) == -1)
+                {
+                    throw new Exception("Estoque insuficiente para a quantidade desejada.");
+                }
+                if (livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade) == -2)
+                {
+                    throw new Exception("Não possui estoque deste livro.");
+                }
+                if (livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade) == -3)
+                {
+                    throw new Exception("Quantidade inválida.");
+                }
                 // Comando SQL para inserir um novo item de pedido na tabela ItemPedido
                 cmd.CommandText = "INSERT INTO ItemPedido (Id,IdCompra, IdLivro, Quantidade,SubTotal) VALUES (@Id, @IdCompra, @IdLivro, @Quantidade, @SubTotal)";
                 cmd.Parameters.AddWithValue("@Id", itemPedido.Id);
-                cmd.Parameters.AddWithValue("@Id", itemPedido.IdCompra);
+                cmd.Parameters.AddWithValue("@IdCompra", itemPedido.IdCompra);
                 cmd.Parameters.AddWithValue("@IdLivro", itemPedido.IdLivro);
                 cmd.Parameters.AddWithValue("@Quantidade", itemPedido.Quantidade);
                 cmd.Parameters.AddWithValue("@SubTotal", itemPedido.SubTotal);
@@ -58,7 +71,7 @@ namespace ProjCrud
                 }
 
                 
-                var cmd = new SqlCommand("UPDATE ItemPedido SET Quantidade = @novaQuantidade WHERE id = @IdItemPedido", conexao);
+                var cmd = new SqlCommand("UPDATE ItemPedido SET Quantidade = @novaQuantidade WHERE id = @id", conexao);
                 cmd.Parameters.AddWithValue("@id", IdItemPedido);
                 cmd.Parameters.AddWithValue("@novaQuantidade", novaQuantidade);
                 cmd.ExecuteNonQuery();
@@ -74,7 +87,7 @@ namespace ProjCrud
                 cmdSelectPreco.Parameters.AddWithValue("@Id", id);
                 decimal preco = (decimal)cmdSelectPreco.ExecuteScalar();
 
-                var cmdSelectQuantidade = new SqlCommand("SELECT Quantidade FROM ItemPedido WHERE Id = @Id", conexao);
+                var cmdSelectQuantidade = new SqlCommand("SELECT Quantidade FROM ItemPedido WHERE Id = @IdItemPedido", conexao);
                 cmdSelectQuantidade.Parameters.AddWithValue("@Id", id);
                 int quantidade = (int)cmdSelectQuantidade.ExecuteScalar();
 

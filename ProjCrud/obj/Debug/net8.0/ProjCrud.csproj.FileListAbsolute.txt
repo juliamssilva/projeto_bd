@@ -71,3 +71,14 @@ C:\Users\nunes\projeto_bd\ProjCrud\obj\Debug\net8.0\refint\Avalonia\ProjCrud.dll
 C:\Users\nunes\projeto_bd\ProjCrud\obj\Debug\net8.0\ProjCrud.csproj.Up2Date
 C:\Users\nunes\projeto_bd\ProjCrud\obj\Debug\net8.0\ProjCrud.genruntimeconfig.cache
 C:\Users\nunes\projeto_bd\ProjCrud\obj\Debug\net8.0\ref\ProjCrud.dll
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.csproj.AssemblyReference.cache
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\Avalonia\Resources.Inputs.cache
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.dll
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\refint\ProjCrud.dll
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.pdb
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\Avalonia\resources
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.AssemblyInfoInputs.cache
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.AssemblyInfo.cs
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.csproj.CoreCompileInputs.cache
+C:\Users\julja\OneDrive\Documentos\bd\ProjCrud\obj\Debug\net8.0\ProjCrud.sourcelink.json
