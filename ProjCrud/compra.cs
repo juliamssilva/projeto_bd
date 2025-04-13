@@ -22,6 +22,11 @@ namespace ProjCrud
 
         //Uma compra pode ter vários itens de pedido
         public List<ItemPedido> ItensPedido { get; set; } = new List<ItemPedido>();
+
+        public override string ToString()
+        {
+            return $"{Id} - {CpfCliente} codigo vendedor:({IdVendedor}) - {DataCompra} - R$ {Total:F2} - Forma de pagamento: {FormaPagamento}";
+        }
     }
 }
   

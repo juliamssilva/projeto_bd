@@ -2,78 +2,105 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="600"
-        x:Class="ProjCrud.Compras"
-        Title="Sistema de Compras">
-    
-    <Grid RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*,*" Margin="10">
-        <!-- Cabeçalho -->
-        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="Gerenciamento de Compras" 
-                  FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
+        mc:Ignorable="d"
+        x:Class="ProjCrud.CompraWindow"
+        Title="Página de Compras"
+        Width="1000" Height="600"
+        Background="#B0DAF5">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/> <!-- Campos e botões -->
+            <RowDefinition Height="Auto"/> <!-- Área de checkbox -->
+            <RowDefinition Height="Auto"/> <!-- Botões de ação -->
+            <RowDefinition Height="Auto"/> <!-- Pesquisa -->
+            <RowDefinition Height="*"/>    <!-- Lista de clientes -->
+            <RowDefinition Height="Auto"/> <!-- Título de itens (6) -->
+            <RowDefinition Height="Auto"/> <!-- Lista de itens (7) -->
+            <RowDefinition Height="Auto"/> <!-- Botões de itens (8) -->
+            <RowDefinition Height="Auto"/> <!-- Painel de edição (9) -->
+        </Grid.RowDefinitions>
+
         
-        <!-- Painel de Controle -->
-        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" Spacing="10">
-            <Button Content="Nova Compra" Click="NovaCompra_Click"/>
-            <Button Content="Adicionar Item" Click="AdicionarItem_Click"/>
-            <Button Content="Remover Item" Click="RemoverItem_Click"/>
-            <Button Content="Calcular Total" Click="CalcularTotal_Click"/>
-            <TextBox x:Name="txtBusca" Width="200" Watermark="Buscar por CPF ou ID"/>
-            <Button Content="Buscar" Click="Buscar_Click"/>
+        <!-- Campos de entrada -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtCpfCliente" Width="150" Margin="0 0 10 0" Watermark="CPF do Cliente"/>
+            <DatePicker x:Name="dpDataCompra" Width="200" Margin="0 0 10 0"/> <!-- Renomeado para dp -->
+            <TextBox x:Name="txtIdVendedor" Width="150" Margin="0 0 10 0" Watermark="ID do Vendedor"/>
         </StackPanel>
         
-        <!-- Lista de Compras -->
-        <DataGrid x:Name="dgCompras" Grid.Row="2" Grid.Column="0" 
-                 AutoGenerateColumns="False" IsReadOnly="True"
-                 SelectionChanged="dgCompras_SelectionChanged">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="Cliente" Binding="{Binding CpfCliente}" Width="120"/>
-                <DataGridTextColumn Header="Data" Binding="{Binding DataCompra, StringFormat='{}{0:dd/MM/yyyy}'}" Width="100"/>
-                <DataGridTextColumn Header="Total" Binding="{Binding Total, StringFormat='{}{0:C}'}" Width="100"/>
-                <DataGridTextColumn Header="Pagamento" Binding="{Binding FormaPagamento}" Width="120"/>
-                <DataGridTextColumn Header="Status" Binding="{Binding StatusPagamento}" Width="100"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- Checkboxes -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+            <CheckBox x:Name="chkDinheiro" Content="Dinheiro" Margin="0 0 10 0"/>
+            <CheckBox x:Name="chkPix" Content="Pix" Margin="0 0 10 0"/>
+            <CheckBox x:Name="chkCartão" Content="Cartão" Margin="0 0 10 0"/>
+            <CheckBox x:Name="chkBoleto" Content="Boleto" Margin="0 0 10 0"/>
+        </StackPanel>
         
-        <!-- Itens da Compra -->
-        <DataGrid x:Name="dgItens" Grid.Row="2" Grid.Column="1" 
-                 AutoGenerateColumns="False" IsReadOnly="True">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
-                <DataGridTextColumn Header="ID Livro" Binding="{Binding IdLivro}" Width="80"/>
-                <DataGridTextColumn Header="Quantidade" Binding="{Binding Quantidade}" Width="80"/>
-                <DataGridTextColumn Header="SubTotal" Binding="{Binding SubTotal, StringFormat='{}{0:C}'}" Width="100"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <!-- Botões de ação -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+            <Button Content="Adicionar" Click="Adicionar_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Atualizar" Click="Atualizar_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            <Button Content="Fechar" Click="Fechar_Click"
+                    Background="#6c757d" Foreground="White" Padding="8" Margin="5"/>
+        </StackPanel>
+
+        <!-- Área de pesquisa -->
+        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+            <TextBox x:Name="txtPesquisarCpfCliente" Width="400" Margin="0 0 10 0" Watermark="Pesquisar pelo Cpf do cliente..."/>
+            <Button Content="Pesquisar" Click="Pesquisar_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
+        </StackPanel>
+
+        <!-- Lista de clientes -->
+        <ListBox x:Name="lstCompras" Grid.Row="4" BorderBrush="Gray"
+                 SelectionChanged="LstCompras_SelectionChanged" Background="White" Foreground="Black"/>
         
-        <!-- Formulário de Nova Compra (visível apenas quando necessário) -->
-        <Border x:Name="pnlNovaCompra" Grid.Row="3" Grid.ColumnSpan="2" 
-               IsVisible="False" Background="#EEE" Padding="10">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <TextBox x:Name="txtIdCompra" Width="50" Watermark="ID"/>
-                <TextBox x:Name="txtCpfCliente" Width="120" Watermark="CPF Cliente"/>
-                <DatePicker x:Name="dpDataCompra" Width="120" SelectedDate="{x:Null}"/>
-                <TextBox x:Name="txtIdVendedor" Width="80" Watermark="ID Vendedor"/>
-                <ComboBox x:Name="cbFormaPagamento" Width="120" Watermark="Pagamento">
-                    <ComboBoxItem>Cartão</ComboBoxItem>
-                    <ComboBoxItem>Boleto</ComboBoxItem>
-                    <ComboBoxItem>PIX</ComboBoxItem>
-                </ComboBox>
-                <Button Content="Confirmar" Click="ConfirmarCompra_Click"/>
-                <Button Content="Cancelar" Click="CancelarCompra_Click"/>
-            </StackPanel>
-        </Border>
         
-        <!-- Formulário de Novo Item (visível apenas quando necessário) -->
-        <Border x:Name="pnlNovoItem" Grid.Row="3" Grid.ColumnSpan="2" 
-               IsVisible="False" Background="#EEE" Padding="10">
-            <StackPanel Orientation="Horizontal" Spacing="10">
-                <TextBox x:Name="txtIdItem" Width="50" Watermark="ID Item"/>
-                <TextBox x:Name="txtIdLivro" Width="80" Watermark="ID Livro"/>
-                <TextBox x:Name="txtQuantidade" Width="80" Watermark="Quantidade"/>
-                <TextBox x:Name="txtPrecoUnitario" Width="100" Watermark="Preço" IsReadOnly="True"/>
-                <Button Content="Confirmar" Click="ConfirmarItem_Click"/>
-                <Button Content="Cancelar" Click="CancelarItem_Click"/>
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="10">
+            <Button Content="Adicionar Item" Click="AdicionarItem_Click"
+                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Editar Quantidade" Click="EditarQuantidade_Click"
+                    Background="#28a745" Foreground="White" Padding="8" Margin="5"/>
+            <Button Content="Remover Item" Click="RemoverItem_Click"
+                    Background="#dc3545" Foreground="White" Padding="8" Margin="5"/>
+        </StackPanel>
+
+        <!-- Lista de itens da compra selecionada -->
+        <Grid Grid.Row="6" Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Text="Itens da Compra:" FontWeight="Bold" Grid.Row="0"/>
+            <ListBox x:Name="lstItens" Grid.Row="1" BorderBrush="Gray"
+                    Background="White" Foreground="Black" Height="150"/>
+        </Grid>
+
+        <!-- Painel para adicionar/editar item -->
+        <Border x:Name="pnlItemDetalhes" Grid.Row="7" BorderBrush="Gray" BorderThickness="1" 
+                Padding="10" Margin="10" IsVisible="False" Background="#f0f0f0">
+            <StackPanel>
+                <TextBlock x:Name="txtTituloOperacao" Text="Adicionar Item" 
+                        FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                <StackPanel Orientation="Horizontal" Margin="0,5">
+                    <TextBox x:Name="txtIdItem" Width="80" Watermark="ID do Item" IsReadOnly="True" Margin="0,0,10,0"/>
+                    <ComboBox x:Name="cmbLivro" Width="300" 
+                            SelectionChanged="CmbLivro_SelectionChanged" Margin="0,0,10,0"/>
+                    <TextBox x:Name="txtQuantidade" Width="100" Watermark="Quantidade" Margin="0,0,10,0"/>
+                </StackPanel>
+                <TextBlock x:Name="lblEstoqueDisponivel" Text="Estoque disponível: 0" Margin="0,5,0,10"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                    <Button Content="Confirmar" Click="ConfirmarItem_Click"
+                            Background="#28a745" Foreground="White" Padding="8" Margin="0,0,10,0"/>
+                    <Button Content="Cancelar" Click="CancelarItem_Click"
+                            Background="#6c757d" Foreground="White" Padding="8"/>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

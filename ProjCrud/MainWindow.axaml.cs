@@ -38,6 +38,12 @@ namespace ProjCrud
             vendedorWindow.Show();
         }
 
+        private void AbrirCompraWindow_Click(object sender, RoutedEventArgs e)
+        {
+            var compraWindow = new CompraWindow();
+            compraWindow.Show();
+        }
+
 
         private void Adicionar_Click(object sender, RoutedEventArgs e)
         {

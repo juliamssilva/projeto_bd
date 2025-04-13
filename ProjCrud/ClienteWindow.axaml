@@ -56,5 +56,6 @@
         <ListBox x:Name="lstClientes" Grid.Row="4" BorderBrush="Gray"
                  SelectionChanged="LstClientes_SelectionChanged" Background="White" Foreground="Black"/>
 
+        
     </Grid>
 </Window>

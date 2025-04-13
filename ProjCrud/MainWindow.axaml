@@ -42,6 +42,8 @@
                     Background="#28a745" Foreground="White" Padding="8" Margin="5"/>  
                 <Button Content="Gerenciar Vendedores" Click="AbrirVendedorWindow_Click"
                     Background="#28a745" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Gerenciar Compras" Click="AbrirCompraWindow_Click"
+                    Background="#28a745" Foreground="White" Padding="8" Margin="5"/>
         </StackPanel>
 
         

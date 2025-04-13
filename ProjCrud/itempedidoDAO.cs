@@ -14,15 +14,17 @@ namespace ProjCrud
             {
                 var cmd = conexao.CreateCommand();
 
-                if (livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade) == -1)
+                int resultado = livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade);
+
+                if (resultado == -1)
                 {
                     throw new Exception("Estoque insuficiente para a quantidade desejada.");
                 }
-                if (livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade) == -2)
+                if (resultado== -2)
                 {
                     throw new Exception("Não possui estoque deste livro.");
                 }
-                if (livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade) == -3)
+                if (resultado== -3)
                 {
                     throw new Exception("Quantidade inválida.");
                 }
@@ -54,14 +56,15 @@ namespace ProjCrud
                 var cmdIdLivro = new SqlCommand("SELECT IdLivro FROM ItemPedido WHERE Id = @Id", conexao);
                 cmdIdLivro.Parameters.AddWithValue("@Id", IdItemPedido);
                 int IdLivro = (int)cmdIdLivro.ExecuteScalar();
-    
-                if(livroDAO.AtualizarEstoque(IdLivro, novaQuantidade) == -1){
+
+                int resultado = livroDAO.AtualizarEstoque(IdLivro, novaQuantidade);
+                if(resultado == -1){
                     throw new Exception("Estoque insuficiente para a quantidade desejada.");
                 }
-                if(livroDAO.AtualizarEstoque(IdLivro, novaQuantidade) == -2){
+                if(resultado == -2){
                     throw new Exception("Não possui estoque deste livro.");
                 }
-                if(livroDAO.AtualizarEstoque(IdLivro , novaQuantidade) == -3){
+                if(resultado == -3){
                     throw new Exception("Quantidade inválida.");
                 }
 
