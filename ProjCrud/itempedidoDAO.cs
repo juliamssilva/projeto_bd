@@ -34,8 +34,36 @@ namespace ProjCrud
     }
         public static void Deletar(int id)
         {
+            int IdLivro = 0;
+            int quantidadeAtual = 0;
+
             using (var conexao = Conexao.Conectar())
-            {
+            {   
+                var cmd2 = new SqlCommand("SELECT IdLivro, Quantidade FROM ItemPedido WHERE Id = @Id", conexao);
+                cmd2.Parameters.AddWithValue("@Id", id);
+
+                using (var reader = cmd2.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        IdLivro = reader.GetInt32(0);
+                        quantidadeAtual = reader.GetInt32(1);
+                    }
+                    else
+                    {
+                        throw new Exception("Item de pedido não encontrado.");
+                    }
+                }
+
+                int resultado = livroDAO.AtualizarEstoque(IdLivro, quantidadeAtual * -1);
+                
+                if(resultado == -1){
+                    throw new Exception("Estoque insuficiente para a quantidade desejada.");
+                }
+                if(resultado == -2){
+                    throw new Exception("Não possui estoque deste livro.");
+                }
+
                 var cmd = new SqlCommand("DELETE FROM ItemPedido WHERE id = @id", conexao);
                 cmd.Parameters.AddWithValue("@id", id);
                 cmd.ExecuteNonQuery();
@@ -47,19 +75,38 @@ namespace ProjCrud
             using (var conexao = Conexao.Conectar())
             {
 
-                var cmdIdLivro = new SqlCommand("SELECT IdLivro FROM ItemPedido WHERE Id = @Id", conexao);
+                var cmdIdLivro = new SqlCommand("SELECT IdLivro, Quantidade FROM ItemPedido WHERE Id = @Id", conexao);
                 cmdIdLivro.Parameters.AddWithValue("@Id", IdItemPedido);
-                int IdLivro = (int)cmdIdLivro.ExecuteScalar();
 
-                int resultado = livroDAO.AtualizarEstoque(IdLivro, novaQuantidade);
+                var cmdGetItem = new SqlCommand("SELECT IdLivro, Quantidade FROM ItemPedido WHERE Id = @Id", conexao);
+                cmdGetItem.Parameters.AddWithValue("@Id", IdItemPedido);
+                
+                int IdLivro = 0;
+                int quantidadeAtual = 0;
+                
+                using (var reader = cmdGetItem.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        IdLivro = reader.GetInt32(0);
+                        quantidadeAtual = reader.GetInt32(1);
+                    }
+                    else
+                    {
+                        throw new Exception("Item de pedido não encontrado.");
+                    }
+                }
+
+                 // Calcular a diferença de quantidade
+                int diferencaQuantidade = novaQuantidade - quantidadeAtual;
+
+                int resultado = livroDAO.AtualizarEstoque(IdLivro, diferencaQuantidade);
+                
                 if(resultado == -1){
                     throw new Exception("Estoque insuficiente para a quantidade desejada.");
                 }
                 if(resultado == -2){
                     throw new Exception("Não possui estoque deste livro.");
-                }
-                if(resultado == -3){
-                    throw new Exception("Quantidade inválida.");
                 }
 
                 if (novaQuantidade == 0){
@@ -68,8 +115,8 @@ namespace ProjCrud
                 }
 
                 
-                var cmd = new SqlCommand("UPDATE ItemPedido SET Quantidade = @novaQuantidade WHERE id = @id", conexao);
-                cmd.Parameters.AddWithValue("@id", IdItemPedido);
+                var cmd = new SqlCommand("UPDATE ItemPedido SET Quantidade = @novaQuantidade WHERE id = @IdItemPedido", conexao);
+                cmd.Parameters.AddWithValue("@IdItemPedido", IdItemPedido); 
                 cmd.Parameters.AddWithValue("@novaQuantidade", novaQuantidade);
                 cmd.ExecuteNonQuery();
                 CalcSubtotal(IdLivro);
@@ -108,11 +155,11 @@ namespace ProjCrud
                     {
                         itensPedido.Add(new ItemPedido
                         {
-                            Id = reader.GetInt32(0),
-                            IdCompra = reader.GetInt32(1),
-                            IdLivro = reader.GetInt32(2),
-                            Quantidade = reader.GetInt32(3),
-                            SubTotal = reader.GetDecimal(4)
+                            Id = (int)reader["Id"],
+                            IdCompra = (int)reader["IdCompra"],
+                            IdLivro = (int)reader["IdLivro"],
+                            Quantidade = (int)reader["Quantidade"],
+                            SubTotal = reader["SubTotal"] == DBNull.Value ? 0m : (decimal)reader["SubTotal"]
                         });
                     }
                 }

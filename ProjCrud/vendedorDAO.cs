@@ -46,7 +46,7 @@ namespace ProjCrud
         {
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("UPDATE Vendedor SET NomeVendedor = @NomeVendedor, Salario = @Salario WHERE IdVendedor = IdVendedor", conexao);
+                var cmd = new SqlCommand("UPDATE Vendedor SET NomeVendedor = @NomeVendedor, Salario = @Salario WHERE IdVendedor = @IdVendedor", conexao);
                 cmd.Parameters.AddWithValue("@NomeVendedor", vendedor.NomeVendedor);
                 cmd.Parameters.AddWithValue("@Salario", vendedor.Salario);
                 cmd.ExecuteNonQuery();

@@ -352,7 +352,10 @@ namespace ProjCrud
                     
                     // Preencher campos
                     txtIdItem.Text = _itemSelecionado.Id.ToString();
+                    txtIdItem.IsEnabled = false; // Desabilitar edição do ID
                     txtQuantidade.Text = _itemSelecionado.Quantidade.ToString();
+
+                     CarregarLivros();
                     
                     // Selecionar o livro correto
                     for (int i = 0; i < cmbLivro.Items.Count; i++)
@@ -413,17 +416,6 @@ namespace ProjCrud
         {
             try
             {
-                if (cmbLivro.SelectedItem == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("Selecione um livro");
-                    return;
-                }
-
-                if (cmbLivro.SelectedIndex <= 0 || cmbLivro.SelectedItem == null)
-                {
-                    System.Diagnostics.Debug.WriteLine("Selecione um livro");
-                    return;
-                }
                 
                 if (!int.TryParse(txtQuantidade.Text, out int quantidade) || quantidade <= 0)
                 {

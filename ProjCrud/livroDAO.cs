@@ -133,17 +133,13 @@ namespace ProjCrud
                 //Tratamento de casos
                 if (estoqueAtual < quantidade)
                 {
-
                     return -1;
                 }
                 if (estoqueAtual == 0)
                 {
                     return -2;
                 }
-                if (quantidade <= 0)
-                {
-                    return -3;
-                }
+        
                 // Calcular novo estoque
                 int novoEstoque = estoqueAtual - quantidade;
                 
