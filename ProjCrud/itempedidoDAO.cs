@@ -8,36 +8,30 @@ namespace ProjCrud
 {
     public class ItemPedidoDAO
     {
-        public static void Adicionar(ItemPedido itemPedido)
+    public static void Adicionar(ItemPedido itemPedido)
+    {
+        using (var conexao = Conexao.Conectar())
         {
-            using (var conexao = Conexao.Conectar())
+            // Atualizar o estoque do livro antes de inserir o item
+            int resultado = livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade);
+            if (resultado < 0)
             {
-                var cmd = conexao.CreateCommand();
-
-                int resultado = livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade);
-
-                if (resultado == -1)
-                {
-                    throw new Exception("Estoque insuficiente para a quantidade desejada.");
-                }
-                if (resultado== -2)
-                {
-                    throw new Exception("Não possui estoque deste livro.");
-                }
-                if (resultado== -3)
-                {
-                    throw new Exception("Quantidade inválida.");
-                }
-                // Comando SQL para inserir um novo item de pedido na tabela ItemPedido
-                cmd.CommandText = "INSERT INTO ItemPedido (Id,IdCompra, IdLivro, Quantidade,SubTotal) VALUES (@Id, @IdCompra, @IdLivro, @Quantidade, @SubTotal)";
-                cmd.Parameters.AddWithValue("@Id", itemPedido.Id);
-                cmd.Parameters.AddWithValue("@IdCompra", itemPedido.IdCompra);
-                cmd.Parameters.AddWithValue("@IdLivro", itemPedido.IdLivro);
-                cmd.Parameters.AddWithValue("@Quantidade", itemPedido.Quantidade);
-                cmd.Parameters.AddWithValue("@SubTotal", itemPedido.SubTotal);
-                cmd.ExecuteNonQuery();
+                throw new Exception("Erro ao atualizar o estoque do livro.");
             }
+
+            // Inserir o item no banco de dados
+            var cmd = new SqlCommand(@"
+                INSERT INTO ItemPedido (IdCompra, IdLivro, Quantidade, SubTotal)
+                VALUES (@IdCompra, @IdLivro, @Quantidade, @SubTotal)", conexao);
+
+            cmd.Parameters.AddWithValue("@IdCompra", itemPedido.IdCompra);
+            cmd.Parameters.AddWithValue("@IdLivro", itemPedido.IdLivro);
+            cmd.Parameters.AddWithValue("@Quantidade", itemPedido.Quantidade);
+            cmd.Parameters.AddWithValue("@SubTotal", itemPedido.SubTotal);
+
+            cmd.ExecuteNonQuery();
         }
+    }
         public static void Deletar(int id)
         {
             using (var conexao = Conexao.Conectar())

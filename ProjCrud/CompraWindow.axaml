@@ -15,17 +15,17 @@
             <RowDefinition Height="Auto"/> <!-- Botões de ação -->
             <RowDefinition Height="Auto"/> <!-- Pesquisa -->
             <RowDefinition Height="*"/>    <!-- Lista de clientes -->
-            <RowDefinition Height="Auto"/> <!-- Título de itens (6) -->
-            <RowDefinition Height="Auto"/> <!-- Lista de itens (7) -->
-            <RowDefinition Height="Auto"/> <!-- Botões de itens (8) -->
-            <RowDefinition Height="Auto"/> <!-- Painel de edição (9) -->
+            <RowDefinition Height="Auto"/> <!-- Título de itens -->
+            <RowDefinition Height="Auto"/> <!-- Lista de itens -->
+            <RowDefinition Height="Auto"/> <!-- Botões de itens -->
+            <RowDefinition Height="Auto"/> <!-- Painel de edição -->
         </Grid.RowDefinitions>
 
         
         <!-- Campos de entrada -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
             <TextBox x:Name="txtCpfCliente" Width="150" Margin="0 0 10 0" Watermark="CPF do Cliente"/>
-            <DatePicker x:Name="dpDataCompra" Width="200" Margin="0 0 10 0"/> <!-- Renomeado para dp -->
+            <DatePicker x:Name="dpDataCompra" Width="200" Margin="0 0 10 0"/>
             <TextBox x:Name="txtIdVendedor" Width="150" Margin="0 0 10 0" Watermark="ID do Vendedor"/>
         </StackPanel>
         
@@ -89,7 +89,7 @@
                 <TextBlock x:Name="txtTituloOperacao" Text="Adicionar Item" 
                         FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
                 <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBox x:Name="txtIdItem" Width="80" Watermark="ID do Item" IsReadOnly="True" Margin="0,0,10,0"/>
+                    <TextBox x:Name="txtIdItem" Width="80" Watermark="ID do Item" IsReadOnly="True" IsVisible="False" Margin="0,0,10,0"/>
                     <ComboBox x:Name="cmbLivro" Width="300" 
                             SelectionChanged="CmbLivro_SelectionChanged" Margin="0,0,10,0"/>
                     <TextBox x:Name="txtQuantidade" Width="100" Watermark="Quantidade" Margin="0,0,10,0"/>

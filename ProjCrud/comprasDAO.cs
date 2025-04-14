@@ -92,11 +92,11 @@ namespace ProjCrud
                     {
                         itens.Add(new ItemPedido
                         {
-                            Id = reader.GetInt32(0),
-                            IdCompra = reader.GetInt32(1),
-                            IdLivro = reader.GetInt32(2),
-                            Quantidade = reader.GetInt32(3),
-                            SubTotal = reader.GetDecimal(4),
+                            Id = (int)reader["Id"],
+                            IdCompra = (int)reader["IdCompra"],
+                            IdLivro = (int)reader["IdLivro"],
+                            Quantidade = (int)reader["Quantidade"],
+                            SubTotal = (decimal)reader["SubTotal"]
                         }); 
                     }    
                 }
@@ -167,11 +167,11 @@ namespace ProjCrud
                     {
                         compras.Add(new ItemPedido
                         {
-                            Id = reader.GetInt32(0),
-                            IdCompra = reader.GetInt32(1),
-                            IdLivro = reader.GetInt32(2),
-                            Quantidade = reader.GetInt32(3),
-                            SubTotal = reader.GetDecimal(4),
+                            Id = (int)reader["Id"],
+                            IdCompra = (int)reader["IdCompra"],
+                            IdLivro = (int)reader["IdLivro"],
+                            Quantidade = (int)reader["Quantidade"],
+                            SubTotal = (decimal)reader["SubTotal"]
                         }); 
                     }    
                 }
@@ -194,11 +194,11 @@ namespace ProjCrud
                     {
                         vendas.Add(new ItemPedido
                         {
-                            Id = reader.GetInt32(0),
-                            IdCompra = reader.GetInt32(1),
-                            IdLivro = reader.GetInt32(2),
-                            Quantidade = reader.GetInt32(3),
-                            SubTotal = reader.GetDecimal(4),
+                            Id = (int)reader["Id"],
+                            IdCompra = (int)reader["IdCompra"],
+                            IdLivro = (int)reader["IdLivro"],
+                            Quantidade = (int)reader["Quantidade"],
+                            SubTotal = (decimal)reader["SubTotal"]
                         }); 
                     }    
                 }

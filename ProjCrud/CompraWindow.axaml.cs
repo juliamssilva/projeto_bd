@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Data.SqlClient;
-
+#nullable disable
 namespace ProjCrud
 {
     public partial class CompraWindow : Window
@@ -70,7 +70,7 @@ namespace ProjCrud
                         IdVendedor = idVendedor,
                         DataCompra = dpDataCompra.SelectedDate.Value.DateTime, // Acessar o DateTime
                         FormaPagamento = formaPagamento,
-                        StatusPagamento = "Pendente" // Valor padrão
+                        StatusPagamento = "Pendente" 
                     };
 
                     ComprasDAO.Criar(novaCompra);
@@ -284,9 +284,9 @@ namespace ProjCrud
                     {
                         while (reader.Read())
                         {
-                            int id = reader.GetInt32(0);
-                            string titulo = reader.GetString(1);
-                            decimal preco = reader.GetDecimal(2);
+                            int id = (int)reader["Id"];
+                            string titulo = reader["Titulo"].ToString();
+                            decimal preco = (decimal)reader["Preco"];
                             cmbLivro.Items.Add($"{id} - {titulo} - R$ {preco:F2}");
                         }
                     }
@@ -314,6 +314,7 @@ namespace ProjCrud
             _modoEdicao = false;
             txtTituloOperacao.Text = "Adicionar Item";
             
+
             // Limpar campos
             txtIdItem.Text = string.Empty;
             txtQuantidade.Text = "1";
@@ -442,15 +443,14 @@ namespace ProjCrud
                 else
                 {
                     // Buscar o maior ID existente para incrementar
-                    int novoId = ObterProximoId();
                     
                     // Criar novo item e usar o método existente para adicionar
                     var novoItem = new ItemPedido
                     {
-                        Id = novoId,
                         IdCompra = _compraSelecionada.Id,
                         IdLivro = idLivro,
-                        Quantidade = quantidade
+                        Quantidade = quantidade,
+                        SubTotal = quantidade * BuscarPrecoLivro(idLivro)
                     };
                     
                     ItemPedidoDAO.Adicionar(novoItem);
@@ -474,23 +474,18 @@ namespace ProjCrud
             }
         }
 
-        // Método auxiliar para obter o próximo ID disponível
-        private int ObterProximoId()
+    private decimal BuscarPrecoLivro(int idLivro)
+    {
+        using (var conexao = Conexao.Conectar())
         {
-            try
-            {
-                using (var conexao = Conexao.Conectar())
-                {
-                    var cmd = new SqlCommand("SELECT ISNULL(MAX(Id), 0) + 1 FROM ItemPedido", conexao);
-                    return (int)cmd.ExecuteScalar();
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"Erro ao obter próximo ID: {ex.Message}");
-                return 1; // Valor padrão em caso de erro
-            }
+            var cmd = new SqlCommand("SELECT Preco FROM Livro WHERE Id = @Id", conexao);
+            cmd.Parameters.AddWithValue("@Id", idLivro);
+
+            return (decimal)cmd.ExecuteScalar();
         }
+    }
+
+  
 
         // Método para cancelar a operação
         private void CancelarItem_Click(object sender, RoutedEventArgs e)

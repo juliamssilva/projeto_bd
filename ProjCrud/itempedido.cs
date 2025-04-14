@@ -15,6 +15,11 @@ namespace ProjCrud
         
         public int Quantidade  { get; set;} 
         public decimal SubTotal  { get; set;} 
+
+        public override string ToString()
+        {
+            return $"Id: {Id}, IdCompra: {IdCompra}, IdLivro: {IdLivro}, Quantidade: {Quantidade}, SubTotal: {SubTotal}";
+        }
     }
 }
   
