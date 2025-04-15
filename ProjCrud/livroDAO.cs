@@ -158,8 +158,9 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Estoque <= @num", conexao);
-                cmd.Parameters.AddWithValue("@num", num);
+                var cmd = new SqlCommand("sp_PesquisarEstoque", conexao);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@LimiteEstoque", num);
                 
                 
                 using (var reader = cmd.ExecuteReader())

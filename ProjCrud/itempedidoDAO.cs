@@ -14,9 +14,14 @@ namespace ProjCrud
         {
             // Atualizar o estoque do livro antes de inserir o item
             int resultado = livroDAO.AtualizarEstoque(itemPedido.IdLivro, itemPedido.Quantidade);
-            if (resultado < 0)
+            if (resultado == -1 )
             {
-                throw new Exception("Erro ao atualizar o estoque do livro.");
+                throw new Exception("Erro: Quantidade no estoque insuficiente.");
+            }
+
+            if (resultado == -2 )
+            {
+                throw new Exception("Erro: Quantidade invalida.");
             }
 
             // Inserir o item no banco de dados
