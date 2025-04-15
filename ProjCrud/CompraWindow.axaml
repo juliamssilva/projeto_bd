@@ -7,101 +7,107 @@
         Title="Página de Compras"
         Width="1000" Height="600"
         Background="#B0DAF5">
-
-    <Grid Margin="20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/> <!-- Campos e botões -->
-            <RowDefinition Height="Auto"/> <!-- Área de checkbox -->
-            <RowDefinition Height="Auto"/> <!-- Botões de ação -->
-            <RowDefinition Height="Auto"/> <!-- Pesquisa -->
-            <RowDefinition Height="*"/>    <!-- Lista de clientes -->
-            <RowDefinition Height="Auto"/> <!-- Título de itens -->
-            <RowDefinition Height="Auto"/> <!-- Lista de itens -->
-            <RowDefinition Height="Auto"/> <!-- Botões de itens -->
-            <RowDefinition Height="Auto"/> <!-- Painel de edição -->
-        </Grid.RowDefinitions>
-
-        
-        <!-- Campos de entrada -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
-            <TextBox x:Name="txtCpfCliente" Width="150" Margin="0 0 10 0" Watermark="CPF do Cliente"/>
-            <DatePicker x:Name="dpDataCompra" Width="300" Margin="0 0 10 0"/>
-            <TextBox x:Name="txtIdVendedor" Width="150" Margin="0 0 10 0" Watermark="ID do Vendedor"/>
-        </StackPanel>
-        
-        <!-- Checkboxes -->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
-            <CheckBox x:Name="chkDinheiro" Content="Dinheiro" Margin="0 0 10 0"/>
-            <CheckBox x:Name="chkPix" Content="Pix" Margin="0 0 10 0"/>
-            <CheckBox x:Name="chkCartão" Content="Cartão" Margin="0 0 10 0"/>
-            <CheckBox x:Name="chkBoleto" Content="Boleto" Margin="0 0 10 0"/>
-        </StackPanel>
-        
-        <!-- Botões de ação -->
-        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
-            <Button Content="Adicionar" Click="Adicionar_Click"
-                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
-            <Button Content="Atualizar" Click="Atualizar_Click"
-                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
-            <Button Content="Fechar" Click="Fechar_Click"
-                    Background="#6c757d" Foreground="White" Padding="8" Margin="5"/>
-        </StackPanel>
-
-        <!-- Área de pesquisa -->
-        <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
-            <TextBox x:Name="txtPesquisarCpfCliente" Width="400" Margin="0 0 10 0" Watermark="Pesquisar pelo Cpf do cliente..."/>
-            <Button Content="Pesquisar" Click="Pesquisar_Click"
-                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
-            <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
-                    Background="White" Foreground="Black" Padding="8" Margin="5"/>
-        </StackPanel>
-
-        <!-- Lista de clientes -->
-        <ListBox x:Name="lstCompras" Grid.Row="4" BorderBrush="Gray"
-                 SelectionChanged="LstCompras_SelectionChanged" Background="White" Foreground="Black"/>
-        
-        
-        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="10">
-            <Button Content="Adicionar Item" Click="AdicionarItem_Click"
-                    Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
-            <Button Content="Editar Quantidade" Click="EditarQuantidade_Click"
-                    Background="#28a745" Foreground="White" Padding="8" Margin="5"/>
-            <Button Content="Remover Item" Click="RemoverItem_Click"
-                    Background="#dc3545" Foreground="White" Padding="8" Margin="5"/>
-        </StackPanel>
-
-        <!-- Lista de itens da compra selecionada -->
-        <Grid Grid.Row="6" Margin="10">
+      <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+        <Grid Margin="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/> <!-- Campos e botões -->
+                <RowDefinition Height="Auto"/> <!-- Área de checkbox -->
+                <RowDefinition Height="Auto"/> <!-- Botões de ação -->
+                <RowDefinition Height="Auto"/> <!-- Pesquisa -->
+                <RowDefinition Height="*"/>    <!-- Lista de clientes -->
+                <RowDefinition Height="Auto"/> <!-- Título de itens -->
+                <RowDefinition Height="Auto"/> <!-- Lista de itens -->
+                <RowDefinition Height="Auto"/> <!-- Botões de itens -->
+                <RowDefinition Height="Auto"/> <!-- Painel de edição -->
             </Grid.RowDefinitions>
-            
-            <TextBlock Text="Itens da Compra:" FontWeight="Bold" Grid.Row="0"/>
-            <ListBox x:Name="lstItens" Grid.Row="1" BorderBrush="Gray"
-                    Background="White" Foreground="Black" Height="150"/>
-        </Grid>
 
-        <!-- Painel para adicionar/editar item -->
-        <Border x:Name="pnlItemDetalhes" Grid.Row="7" BorderBrush="White" BorderThickness="1" 
-                Padding="10" Margin="10" IsVisible="False" Background="#f0f0f0">
-            <StackPanel>
-                <TextBlock x:Name="txtTituloOperacao" Text="Adicionar Item" 
-                        FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
-                <StackPanel Orientation="Horizontal" Margin="0,5">
-                    <TextBox x:Name="txtIdItem" Width="80" Watermark="ID do Item" IsReadOnly="True" IsVisible="False" Margin="0,0,10,0"/>
-                    <ComboBox x:Name="cmbLivro" Width="300" 
-                            SelectionChanged="CmbLivro_SelectionChanged" Margin="0,0,10,0"/>
-                    <TextBox x:Name="txtQuantidade" Width="100" Watermark="Quantidade" Margin="0,0,10,0"/>
-                </StackPanel>
-                <TextBlock x:Name="lblEstoqueDisponivel" Text="Estoque disponível: 0" Margin="0,5,0,10"/>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
-                    <Button Content="Confirmar" Click="ConfirmarItem_Click"
-                            Background="#28a745" Foreground="White" Padding="8" Margin="0,0,10,0"/>
-                    <Button Content="Cancelar" Click="CancelarItem_Click"
-                            Background="#6c757d" Foreground="White" Padding="8"/>
-                </StackPanel>
+            
+            <!-- Campos de entrada -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
+                <TextBox x:Name="txtCpfCliente" Width="150" Margin="0 0 10 0" Watermark="CPF do Cliente"/>
+                <DatePicker x:Name="dpDataCompra" Width="300" Margin="0 0 10 0"/>
+                <TextBox x:Name="txtIdVendedor" Width="150" Margin="0 0 10 0" Watermark="ID do Vendedor"/>
             </StackPanel>
-        </Border>
-    </Grid>
+            
+            <!-- Checkboxes -->
+            <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10">
+                <CheckBox x:Name="chkDinheiro" Content="Dinheiro" Margin="0 0 10 0"/>
+                <CheckBox x:Name="chkPix" Content="Pix" Margin="0 0 10 0"/>
+                <CheckBox x:Name="chkCartão" Content="Cartão" Margin="0 0 10 0"/>
+                <CheckBox x:Name="chkBoleto" Content="Boleto" Margin="0 0 10 0"/>
+            </StackPanel>
+            
+            <!-- Botões de ação -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="10">
+                <Button Content="Adicionar" Click="Adicionar_Click"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Atualizar" Click="Atualizar_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+                <Button Content="Fechar" Click="Fechar_Click"
+                        Background="#6c757d" Foreground="White" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="10">
+                <TextBox x:Name="txtIdVendedorPesquisa" Width="200" Margin="0,0,10,0" Watermark="Digite o ID do vendedor..."/>
+                <Button Content="Vendas do Vendedor" Click="MostrarVendasPorVendedor_Click" Width="200"/>
+            </StackPanel>
+
+            <!-- Área de pesquisa -->
+            <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="10">
+                <TextBox x:Name="txtPesquisarCpfCliente" Width="200" Margin="0 0 10 0" Watermark="Pesquisar pelo Cpf do cliente..."/>
+                <Button Content="Pesquisar" Click="Pesquisar_Click"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <!-- Lista de clientes -->
+            <ListBox x:Name="lstCompras" Grid.Row="5" BorderBrush="Gray"
+                    SelectionChanged="LstCompras_SelectionChanged" Background="White" Foreground="Black"/>
+            
+            
+            <StackPanel Grid.Row="6" Orientation="Horizontal" Margin="10">
+                <Button Content="Adicionar Item" Click="AdicionarItem_Click"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Editar Quantidade" Click="EditarQuantidade_Click"
+                        Background="#28a745" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Remover Item" Click="RemoverItem_Click"
+                        Background="#dc3545" Foreground="White" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <!-- Lista de itens da compra selecionada -->
+            <Grid Grid.Row="7" Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                
+                <TextBlock Text="Itens da Compra:" FontWeight="Bold" Grid.Row="0"/>
+                <ListBox x:Name="lstItens" Grid.Row="1" BorderBrush="Gray"
+                        Background="White" Foreground="Black" Height="150"/>
+            </Grid>
+
+            <!-- Painel para adicionar/editar item -->
+            <Border x:Name="pnlItemDetalhes" Grid.Row="8" BorderBrush="White" BorderThickness="1" 
+                    Padding="10" Margin="10" IsVisible="False" Background="#f0f0f0">
+                <StackPanel>
+                    <TextBlock x:Name="txtTituloOperacao" Text="Adicionar Item" 
+                            FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,5">
+                        <TextBox x:Name="txtIdItem" Width="80" Watermark="ID do Item" IsReadOnly="True" IsVisible="False" Margin="0,0,10,0"/>
+                        <ComboBox x:Name="cmbLivro" Width="300" 
+                                SelectionChanged="CmbLivro_SelectionChanged" Margin="0,0,10,0"/>
+                        <TextBox x:Name="txtQuantidade" Width="100" Watermark="Quantidade" Margin="0,0,10,0"/>
+                    </StackPanel>
+                    <TextBlock x:Name="lblEstoqueDisponivel" Text="Estoque disponível: 0" Margin="0,5,0,10"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10,0,0">
+                        <Button Content="Confirmar" Click="ConfirmarItem_Click"
+                                Background="#28a745" Foreground="White" Padding="8" Margin="0,0,10,0"/>
+                        <Button Content="Cancelar" Click="CancelarItem_Click"
+                                Background="#6c757d" Foreground="White" Padding="8"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Grid>
+    </ScrollViewer>
 </Window>

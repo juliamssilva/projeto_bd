@@ -535,5 +535,32 @@ namespace ProjCrud
             }
         }
 
+        private void MostrarVendasPorVendedor_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Obter o ID do vendedor do TextBox
+                if (int.TryParse(txtIdVendedorPesquisa.Text, out int idVendedor))
+                {
+                    // Obter os dados da view
+                    var vendas = ComprasDAO.Vendas_Vendedor(idVendedor);
+
+                    // Exibir os dados na ListBox
+                    lstItens.Items.Clear();
+                    foreach (var venda in vendas)
+                    {
+                        lstItens.Items.Add($"ID: {venda.Id} - Livro: {venda.IdLivro} - Quantidade: {venda.Quantidade} - SubTotal: R$ {venda.SubTotal:F2}");
+                    }
+                }
+                else
+                {
+                    System.Diagnostics.Debug.WriteLine("ID do vendedor inválido.");
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Erro ao mostrar vendas por vendedor: {ex.Message}");
+            }
+        }
     }
 }
