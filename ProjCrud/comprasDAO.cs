@@ -185,7 +185,7 @@ namespace ProjCrud
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT IP.* FROM ItemPedido IP JOIN Compra C ON IP.IdCompra = C.Id WHERE C.IdVendedor = @IdVendedor", conexao);
+                var cmd = new SqlCommand("SELECT * FROM VW_Vendas_Por_Vendedor WHERE IdVendedor = @IdVendedor", conexao);
                 cmd.Parameters.AddWithValue("@IdVendedor", IdVendedor );
                 
                 using (var reader = cmd.ExecuteReader())

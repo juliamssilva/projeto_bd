@@ -119,24 +119,32 @@ namespace ProjCrud
                 cmd.Parameters.AddWithValue("@IdItemPedido", IdItemPedido); 
                 cmd.Parameters.AddWithValue("@novaQuantidade", novaQuantidade);
                 cmd.ExecuteNonQuery();
-                CalcSubtotal(IdLivro);
+                CalcSubtotal(IdItemPedido);
             }
         }
 
-        public static void CalcSubtotal (int id)
+        public static void CalcSubtotal(int idItemPedido)
         {
             using (var conexao = Conexao.Conectar())
             {
+                // Primeiro obter o IdLivro do item
+                var cmdGetLivro = new SqlCommand("SELECT IdLivro FROM ItemPedido WHERE Id = @Id", conexao);
+                cmdGetLivro.Parameters.AddWithValue("@Id", idItemPedido);
+                int idLivro = (int)cmdGetLivro.ExecuteScalar();
+                
+                // Depois buscar o preço usando o IdLivro correto
                 var cmdSelectPreco = new SqlCommand("SELECT Preco FROM Livro WHERE Id = @Id", conexao);
-                cmdSelectPreco.Parameters.AddWithValue("@Id", id);
+                cmdSelectPreco.Parameters.AddWithValue("@Id", idLivro);
                 decimal preco = (decimal)cmdSelectPreco.ExecuteScalar();
 
-                var cmdSelectQuantidade = new SqlCommand("SELECT Quantidade FROM ItemPedido WHERE Id = @IdItemPedido", conexao);
-                cmdSelectQuantidade.Parameters.AddWithValue("@Id", id);
+                // Buscar a quantidade do item
+                var cmdSelectQuantidade = new SqlCommand("SELECT Quantidade FROM ItemPedido WHERE Id = @Id", conexao);
+                cmdSelectQuantidade.Parameters.AddWithValue("@Id", idItemPedido);
                 int quantidade = (int)cmdSelectQuantidade.ExecuteScalar();
 
-                var cmd = new SqlCommand("UPDATE ItemPedido SET SubTotal = @SubTotal WHERE id = @id", conexao);
-                cmd.Parameters.AddWithValue("@id", id);
+                // Atualizar o subtotal
+                var cmd = new SqlCommand("UPDATE ItemPedido SET SubTotal = @SubTotal WHERE Id = @Id", conexao);
+                cmd.Parameters.AddWithValue("@Id", idItemPedido);
                 cmd.Parameters.AddWithValue("@SubTotal", preco * quantidade);
                 cmd.ExecuteNonQuery();
             }
