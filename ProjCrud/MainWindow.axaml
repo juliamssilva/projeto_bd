@@ -55,6 +55,7 @@
                 <ComboBoxItem Content="Categoria"/>
                 <ComboBoxItem Content="Editora"/>
                 <ComboBoxItem Content="Faixa de Preço"/>
+                <ComboBoxItem Content=" Estoque"/>
             </ComboBox>
         </StackPanel>
 
@@ -92,6 +93,14 @@
                 <TextBox x:Name="txtPrecoMin" Width="195" Margin="0 0 10 0" Watermark="Preço mínimo..."/>
                 <TextBox x:Name="txtPrecoMax" Width="195" Margin="0 0 10 0" Watermark="Preço máximo..."/>
                 <Button Content="Pesquisar" Click="Pesquisar_Click_Preco"
+                        Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
+                <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
+                        Background="White" Foreground="Black" Padding="8" Margin="5"/>
+            </StackPanel>
+
+            <StackPanel x:Name="pnlPesquisaEstoque" Orientation="Horizontal" IsVisible="False">
+                <TextBox x:Name="txtPesquisarEstoque" Width="400" Margin="0 0 10 0" Watermark="Pesquisar por estoque..."/>
+                <Button Content="Pesquisar" Click="Pesquisar_Click_Estoque"
                         Background="#007BFF" Foreground="White" Padding="8" Margin="5"/>
                 <Button Content="Mostrar Todos" Click="MostrarTodos_Click"
                         Background="White" Foreground="Black" Padding="8" Margin="5"/>

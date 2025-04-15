@@ -152,13 +152,14 @@ namespace ProjCrud
             }
         }
 
-        public static List<Livro> PesquisarEstoque()
+        public static List<Livro> PesquisarEstoque(int num)
         {
             var livros = new List<Livro>();
 
             using (var conexao = Conexao.Conectar())
             {
-                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Estoque <= 5", conexao);
+                var cmd = new SqlCommand("SELECT * FROM Livro WHERE Estoque <= @num", conexao);
+                cmd.Parameters.AddWithValue("@num", num);
                 
                 
                 using (var reader = cmd.ExecuteReader())

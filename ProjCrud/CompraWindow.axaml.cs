@@ -68,7 +68,7 @@ namespace ProjCrud
                     {
                         CpfCliente = txtCpfCliente.Text,
                         IdVendedor = idVendedor,
-                        DataCompra = dpDataCompra.SelectedDate.Value.DateTime, // Acessar o DateTime
+                        DataCompra = DateTime.Now, // Acessar o DateTime
                         FormaPagamento = formaPagamento,
                         StatusPagamento = "Pendente" 
                     };

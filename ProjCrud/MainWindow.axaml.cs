@@ -170,6 +170,18 @@ namespace ProjCrud
             lstLivros.SelectedItem = null; // Limpar seleção
         }
 
+        private void Pesquisar_Click_Estoque(object sender, RoutedEventArgs e)
+        {
+            string termoPesquisa = txtPesquisarEstoque.Text?.Trim() ?? string.Empty;
+
+            if (int.TryParse(termoPesquisa, out int termoPesquisaInt))
+            {
+                // Chamar o método de pesquisa com o termo convertido para int
+                var resultadosPesquisa = livroDAO.PesquisarEstoque(termoPesquisaInt);
+                ExibirResultadosPesquisa(resultadosPesquisa);
+            }
+        }
+
         private void Pesquisar_Click_Titulo(object sender, RoutedEventArgs e)
         {
             string termoPesquisa = txtPesquisarTitulo.Text?.Trim() ?? string.Empty;
@@ -253,6 +265,7 @@ namespace ProjCrud
                 pnlPesquisaCategoria.IsVisible = false;
                 pnlPesquisaEditora.IsVisible = false;
                 pnlPesquisaPreco.IsVisible = false;
+                pnlPesquisaEstoque.IsVisible = false;
                 
                 // Mostra apenas o painel correspondente à seleção
                 switch (cmbTipoPesquisa.SelectedIndex)
@@ -269,8 +282,12 @@ namespace ProjCrud
                     case 3: // Faixa de Preço
                         pnlPesquisaPreco.IsVisible = true;
                         break;
+                    case 4: // Estoque
+                        pnlPesquisaEstoque.IsVisible = true;
+                        break;
                 }
             }
+            
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Erro ao mudar tipo de pesquisa: {ex.Message}");

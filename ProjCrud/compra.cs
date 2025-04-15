@@ -25,7 +25,7 @@ namespace ProjCrud
 
         public override string ToString()
         {
-            return $"{Id} - {CpfCliente} codigo vendedor:({IdVendedor}) - {DataCompra} - R$ {Total:F2} - Forma de pagamento: {FormaPagamento}";
+            return $"{Id} - CPF Cliente: {CpfCliente} Código do Vendedor:{IdVendedor} -  {DataCompra:dd/MM/yyyy HH:mm:ss} - R$ {Total:F2} - Forma de pagamento: {FormaPagamento}";
         }
     }
 }

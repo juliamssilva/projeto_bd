@@ -25,7 +25,7 @@
         <!-- Campos de entrada -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
             <TextBox x:Name="txtCpfCliente" Width="150" Margin="0 0 10 0" Watermark="CPF do Cliente"/>
-            <DatePicker x:Name="dpDataCompra" Width="200" Margin="0 0 10 0"/>
+            <DatePicker x:Name="dpDataCompra" Width="300" Margin="0 0 10 0"/>
             <TextBox x:Name="txtIdVendedor" Width="150" Margin="0 0 10 0" Watermark="ID do Vendedor"/>
         </StackPanel>
         
@@ -83,7 +83,7 @@
         </Grid>
 
         <!-- Painel para adicionar/editar item -->
-        <Border x:Name="pnlItemDetalhes" Grid.Row="7" BorderBrush="Gray" BorderThickness="1" 
+        <Border x:Name="pnlItemDetalhes" Grid.Row="7" BorderBrush="White" BorderThickness="1" 
                 Padding="10" Margin="10" IsVisible="False" Background="#f0f0f0">
             <StackPanel>
                 <TextBlock x:Name="txtTituloOperacao" Text="Adicionar Item" 
